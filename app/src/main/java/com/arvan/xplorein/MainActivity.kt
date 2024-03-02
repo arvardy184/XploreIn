@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
 
                             LaunchedEffect(key1 = Unit) {
                                 if(googleAuthUiClient.getSignedInUser() != null) {
-                                    navController.navigate("profile")
+                                    navController.navigate("sign_up")
                                 }
                             }
 
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                                         Toast.LENGTH_LONG
                                     ).show()
 
-                                    navController.navigate("profile")
+                                    navController.navigate("sign_up")
                                     viewModel.resetState()
                                 }
                             }
@@ -103,29 +103,35 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
+//                        composable("sign_up") {
+//                            SignUpScreen(
+//                                state = state,
+//                                onSignUpClick = {
+//
+//                                    navController.navigate("sign_up")
+//                                }
+//                            )
+//                        }
+//                        composable("profile") {
+//                            ProfileScreen(
+//                                userData = googleAuthUiClient.getSignedInUser(),
+//                                onSignOutClick = {
+//                                    lifecycleScope.launch {
+//                                        googleAuthUiClient.signOut()
+//                                        Toast.makeText(
+//                                            applicationContext,
+//                                            "Signed out",
+//                                            Toast.LENGTH_LONG
+//                                        ).show()
+//
+//                                        navController.popBackStack()
+//                                    }
+//                                }
+//                            )
+//                        }
                         composable("sign_up") {
                             SignUpScreen(
-                                onSignUpClick = {
-                                    navController.navigate("sign_in")
-                                }
-                            )
-                        }
 
-                        composable("profile") {
-                            ProfileScreen(
-                                userData = googleAuthUiClient.getSignedInUser(),
-                                onSignOutClick = {
-                                    lifecycleScope.launch {
-                                        googleAuthUiClient.signOut()
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Signed out",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-
-                                        navController.popBackStack()
-                                    }
-                                }
                             )
                         }
                     }

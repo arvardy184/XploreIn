@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">XploreIn</string>
+    <string name="app_name">XploreInd</string>
     <string name="web_client_id">775151845896-6ifg4ehla5dpn31to0ubi49r79851v33.apps.googleusercontent.com</string>
+    <string name="go_to">Already have an account? Login</string>
 </resources>
