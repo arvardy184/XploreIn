@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.arvan.xplorein" />
+                  <option name="mobileSdkAppId" value="1:775151845896:android:fa818e930f1252286647bd" />
+                  <option name="projectId" value="xplorein-9a982" />
+                  <option name="projectNumber" value="775151845896" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
