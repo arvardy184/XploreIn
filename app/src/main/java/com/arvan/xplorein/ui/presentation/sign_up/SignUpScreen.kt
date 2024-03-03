@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arvan.xplorein.R
@@ -35,29 +37,27 @@ import com.arvan.xplorein.ui.component.ClickableLoginTextComponent
 import com.arvan.xplorein.ui.component.SmallTextComponent
 import com.arvan.xplorein.ui.component.TextButtonComponent
 import com.arvan.xplorein.ui.theme.green
+import com.arvan.xplorein.ui.theme.red
 import com.arvan.xplorein.ui.theme.yellow
 
 @Composable
 fun SignUpScreen(
-
+onClick : () -> Unit
 ){
     Surface (color = yellow,
         modifier = Modifier
             .fillMaxSize()
 
     ){
-        Column (
+        Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(28.dp)
-
-
-        ){
-
+        ) {
             Spacer(modifier = Modifier.height(30.dp))
-            NormalTextComponent(value = stringResource(id = R.string.app_name) )
+            NormalTextComponent(value = stringResource(id = R.string.app_name))
             Spacer(modifier = Modifier.height(10.dp))
             MyTextField(labelValue = "Email/Phone Number")
             Spacer(modifier = Modifier.height(10.dp))
@@ -66,33 +66,15 @@ fun SignUpScreen(
             MyTextField(labelValue = "Username")
             Spacer(modifier = Modifier.height(10.dp))
             MyTextField(labelValue = "Password")
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             ButtonComponent(value = "Sign Up")
             Spacer(modifier = Modifier.height(16.dp))
-//            Row(
-//                horizontalArrangement = Arrangement.Center,
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(10.dp),
-//            ) {
-                Spacer(modifier = Modifier.width(20.dp))
-//                Box(modifier = Modifier
-//                    .fillMaxWidth()
-//                    .heightIn(24.dp).background(
-//                        color = green,
-//                        shape = RoundedCornerShape(50.dp)
-//                    ),
-//                    contentAlignment = Alignment.Center
-//
-//                ){
-//                    TextButtonComponent(value = "Sign up") {
-//                        // Code to handle sign-up action
-//                        Log.d("Test", "Sign up clicked!")  // Test logging
-//                    }
-//                }
 
-//            }
-        ClickableLoginTextComponent(onTextSelected = {})
+            ClickableLoginTextComponent(onTextSelected = {
+                "Login"
+                Log.d("Test", "Login clicked!")
+                onClick()
+            })
 
         }
 
@@ -102,49 +84,40 @@ fun SignUpScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreviewOfSignUpScreen(){
-   Surface (color = yellow,
-       modifier = Modifier
-           .fillMaxSize()
+fun DefaultPreviewOfSignUpScreen() {
+    Surface(
+        color = yellow,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(28.dp)
+        ) {
+            Spacer(modifier = Modifier.height(30.dp))
+            NormalTextComponent(value = stringResource(id = R.string.app_name))
+            Spacer(modifier = Modifier.height(10.dp))
+            MyTextField(labelValue = "Email/Phone Number")
+            Spacer(modifier = Modifier.height(10.dp))
+            MyTextField(labelValue = "Full Name")
+            Spacer(modifier = Modifier.height(10.dp))
+            MyTextField(labelValue = "Username")
+            Spacer(modifier = Modifier.height(10.dp))
+            MyTextField(labelValue = "Password")
+            Spacer(modifier = Modifier.height(10.dp))
+            ButtonComponent(value = "Sign Up")
+            Spacer(modifier = Modifier.height(16.dp))
 
-       ){
-       Column (
-           verticalArrangement = Arrangement.Top,
-           horizontalAlignment = Alignment.CenterHorizontally,
-           modifier = Modifier
-               .fillMaxSize()
-               .padding(28.dp)
+               ClickableLoginTextComponent(onTextSelected = {
 
+                   Log.d("Test", "Login clicked!")
+               })
 
-       ){
-
-           Spacer(modifier = Modifier.height(30.dp))
-           NormalTextComponent(value = stringResource(id = R.string.app_name) )
-           Spacer(modifier = Modifier.height(10.dp))
-           MyTextField(labelValue = "Email/Phone Number")
-           Spacer(modifier = Modifier.height(10.dp))
-           MyTextField(labelValue = "Full Name")
-           Spacer(modifier = Modifier.height(10.dp))
-           MyTextField(labelValue = "Username")
-           Spacer(modifier = Modifier.height(10.dp))
-           MyTextField(labelValue = "Password")
-           Spacer(modifier = Modifier.height(10.dp))
-           ButtonComponent(value = "Sign Up")
-           Spacer(modifier = Modifier.height(16.dp))
-           Row(
-               horizontalArrangement = Arrangement.Center,
-               verticalAlignment = Alignment.CenterVertically
-           ) {
-               SmallTextComponent(value = "Already have an account?")
-               Spacer(modifier = Modifier.weight(1f))
-               NormalTextComponent(value = "Sign in")
-           }
-
-
-       }
-
-
-   }
+        }
+    }
 }
 
 

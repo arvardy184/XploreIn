@@ -13,16 +13,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.arvan.xplorein.ui.presentation.onboarding.OnboardingScreen
 import com.arvan.xplorein.ui.presentation.profile.ProfileScreen
 import com.google.android.gms.auth.api.identity.Identity
-
 import com.arvan.xplorein.ui.presentation.sign_in.GoogleAuthUiClient
 import com.arvan.xplorein.ui.presentation.sign_in.SignInScreen
 import com.arvan.xplorein.ui.presentation.sign_in.SignInViewModel
@@ -42,6 +43,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        installSplashScreen()
         setContent {
             XploreInTheme {
                 // A surface container using the 'background' color from the theme
@@ -50,16 +53,24 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "sign_in") {
+                    NavHost(navController = navController, startDestination = "onboarding") {
+
+                        composable("onboarding"){
+                            OnboardingScreen(
+                                onSignInClick = {
+                                    navController.navigate("sign_up")
+                                }
+                            )
+                        }
                         composable("sign_in") {
                             val viewModel = viewModel<SignInViewModel>()
                             val state by viewModel.state.collectAsStateWithLifecycle()
 
-                            LaunchedEffect(key1 = Unit) {
-                                if(googleAuthUiClient.getSignedInUser() != null) {
-                                    navController.navigate("sign_up")
-                                }
-                            }
+//                            LaunchedEffect(key1 = Unit) {
+//                                if(googleAuthUiClient.getSignedInUser() != null) {
+//                                    navController.navigate("profile")
+//                                }
+//                            }
 
                             val launcher = rememberLauncherForActivityResult(
                                 contract = ActivityResultContracts.StartIntentSenderForResult(),
@@ -83,7 +94,7 @@ class MainActivity : ComponentActivity() {
                                         Toast.LENGTH_LONG
                                     ).show()
 
-                                    navController.navigate("sign_up")
+                                    navController.navigate("profile")
                                     viewModel.resetState()
                                 }
                             }
@@ -103,35 +114,29 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-//                        composable("sign_up") {
-//                            SignUpScreen(
-//                                state = state,
-//                                onSignUpClick = {
 //
-//                                    navController.navigate("sign_up")
-//                                }
-//                            )
-//                        }
-//                        composable("profile") {
-//                            ProfileScreen(
-//                                userData = googleAuthUiClient.getSignedInUser(),
-//                                onSignOutClick = {
-//                                    lifecycleScope.launch {
-//                                        googleAuthUiClient.signOut()
-//                                        Toast.makeText(
-//                                            applicationContext,
-//                                            "Signed out",
-//                                            Toast.LENGTH_LONG
-//                                        ).show()
-//
-//                                        navController.popBackStack()
-//                                    }
-//                                }
-//                            )
-//                        }
+                        composable("profile") {
+                            ProfileScreen(
+                                userData = googleAuthUiClient.getSignedInUser(),
+                                onSignOutClick = {
+                                    lifecycleScope.launch {
+                                        googleAuthUiClient.signOut()
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Signed out",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+
+                                        navController.popBackStack()
+                                    }
+                                }
+                            )
+                        }
                         composable("sign_up") {
                             SignUpScreen(
-
+onClick = {
+    navController.navigate("sign_in")
+}
                             )
                         }
                     }

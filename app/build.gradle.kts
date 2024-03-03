@@ -56,6 +56,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.1")
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("com.google.dagger:hilt-android:2.44")
+    implementation("androidx.core:core-splashscreen:1.0.1")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     val lifecycle_version = "2.7.0"
