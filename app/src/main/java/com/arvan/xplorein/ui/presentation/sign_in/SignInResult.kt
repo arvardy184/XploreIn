@@ -1,6 +1,5 @@
 package com.arvan.xplorein.ui.presentation.sign_in
 
-import android.content.Intent
 
 data class SignInResult (
     val data: UserData?,

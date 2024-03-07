@@ -11,11 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -25,10 +25,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.component.AuthButtonComponent
-import com.arvan.xplorein.ui.component.ClickableLoginTextComponent
+import com.arvan.xplorein.ui.component.ClickableAuthTextComponent
 import com.arvan.xplorein.ui.component.DividerTextCompoent
 import com.arvan.xplorein.ui.component.MyTextField
 import com.arvan.xplorein.ui.component.SocialMediaRow
+import com.arvan.xplorein.ui.component.TitleTextComponent
 import com.arvan.xplorein.ui.theme.yellow
 
 
@@ -37,6 +38,8 @@ fun SignInScreen(
     state: SignInState,
     onSignInClick: () -> Unit
 ) {
+    val email = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
     val context = LocalContext.current
     LaunchedEffect(key1 = state.signInError ){
         state.signInError?.let { error ->
@@ -84,18 +87,38 @@ fun SignInScreen(
                     contentScale = ContentScale.Crop
                 )
             }
-//            MyTextField(labelValue = "Email/Phone Number")
-//            Spacer(modifier = Modifier.height(10.dp))
-//            MyTextField(labelValue = "Password")
+            MyTextField(labelValue = "Email/Phone Number", textValue =email.value, onValueChanged = {
+                newValue ->
+                email.value = newValue
+            })
             Spacer(modifier = Modifier.height(10.dp))
-            AuthButtonComponent(value = "Sign In")
+            MyTextField(labelValue = "Password", textValue = password.value, onValueChanged = {
+                newValue ->
+                password.value = newValue
+            }
+            , isPassword = true)
+
+            Spacer(modifier = Modifier.height(10.dp))
+            AuthButtonComponent(value = "Sign In", onClickAuth = {
+
+            })
             Spacer(modifier = Modifier.height(16.dp))
 
-            ClickableLoginTextComponent(onTextSelected = {
-                "Login"
-                Log.d("Test", "Sign Up clicked!")
-//                onClick()
-            })
+            ClickableAuthTextComponent(
+               onLoginSelected = {
+
+                    Log.d("Test", "Sign In clicked!")
+                    onSignInClick()
+                },
+                onSignUpSelected = {}
+
+
+//                onTextSelected = {
+//                "Login"
+//                Log.d("Test", "Sign Up clicked!")
+////                onClick()
+//            }
+            )
             Spacer(modifier = Modifier.height(16.dp))
             DividerTextCompoent()
             SocialMediaRow(
@@ -109,7 +132,4 @@ fun SignInScreen(
     }
 }
 
-@Composable
-fun TitleTextComponent(value: String) {
 
-}

@@ -36,9 +36,11 @@ import com.arvan.xplorein.ui.theme.InterFontFamily
 import com.arvan.xplorein.ui.theme.green
 
 @Composable
-fun AuthButtonComponent(value:String) {
+fun AuthButtonComponent(value:String,onClickAuth: () -> Unit) {
     Button(
-        onClick = {  },
+        onClick = {
+                  onClickAuth()
+        },
         colors = ButtonDefaults.buttonColors(
             containerColor = green,
         ),
@@ -71,16 +73,28 @@ fun AuthButtonComponent(value:String) {
 }
 
 
+
 @Composable
-fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
+fun ClickableAuthTextComponent(
+    onLoginSelected: () -> Unit,
+    onSignUpSelected: () -> Unit
+
+) {
     val initText = "Already have an account? "
     val loginText = "Login"
+    val signupText = "Sign Up"
 
     val annotatedString = buildAnnotatedString {
         append(initText)
         withStyle(style = SpanStyle(color = Color.Black)) {
             pushStringAnnotation(tag = loginText, annotation = loginText)
             append(loginText)
+            pop()
+        }
+        append(" or ")
+        withStyle(style = SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold)) {
+            pushStringAnnotation(tag = signupText, annotation = signupText)
+            append(signupText)
             pop()
         }
     }
@@ -100,13 +114,15 @@ fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
         onClick = { offset ->
             annotatedString.getStringAnnotations(offset, offset)
                 .firstOrNull()?.also { span ->
-                    if (span.item == loginText) {
-                        onTextSelected(loginText)
+                    when (span.item) {
+                        loginText -> onLoginSelected()
+                        signupText -> onSignUpSelected()
                     }
                 }
         }
     )
 }
+
 
 
 @Composable

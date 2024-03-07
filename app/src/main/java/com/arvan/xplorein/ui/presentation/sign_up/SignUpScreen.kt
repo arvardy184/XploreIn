@@ -32,32 +32,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.component.AuthButtonComponent
+import com.arvan.xplorein.ui.component.ClickableAuthTextComponent
 import com.arvan.xplorein.ui.component.MyTextField
-import com.arvan.xplorein.ui.component.ClickableLoginTextComponent
 
 import com.arvan.xplorein.ui.component.TitleTextComponent
 import com.arvan.xplorein.ui.theme.green
 import com.arvan.xplorein.ui.theme.red
 import com.arvan.xplorein.ui.theme.yellow
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 @Composable
 fun SignUpScreen(
-    emailOrPhoneNumber: String,
-    onEmailOrPhoneNumberChanged: (String) -> Unit,
-    fullName: String,
-    onFullNameChanged: (String) -> Unit,
-    username: String,
-    onUsernameChanged: (String) -> Unit,
-    password: String,
-    onPasswordChanged: (String) -> Unit,
 
-onClick : () -> Unit
-){
-    Surface (color = yellow,
-        modifier = Modifier
-            .fillMaxSize()
+    onClick: () -> Unit
+) {
+    val email = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+    val fullName = remember { mutableStateOf("") }
+    val username = remember { mutableStateOf("") }
+    val context = LocalContext.current
 
-    ){
+    Surface(
+        color = yellow,
+        modifier = Modifier.fillMaxSize()
+    ) {
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -65,69 +66,133 @@ onClick : () -> Unit
                 .fillMaxSize()
                 .padding(28.dp)
         ) {
-
             Spacer(modifier = Modifier.height(30.dp))
             TitleTextComponent(value = stringResource(id = R.string.app_name))
             Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Email/Phone Number", textValue = emailOrPhoneNumber, onValueChanged = onEmailOrPhoneNumberChanged)
-            Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Full Name", textValue = fullName, onValueChanged = onFullNameChanged)
-            Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Username", textValue = username, onValueChanged = onUsernameChanged)
-            Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Password", textValue = password, onValueChanged = onPasswordChanged,isPassword = true)
-            Spacer(modifier = Modifier.height(10.dp))
-            AuthButtonComponent(value = "Sign Up")
-            Spacer(modifier = Modifier.height(16.dp))
+            MyTextField(
+                labelValue = "Email/Phone Number",
+                textValue = email.value,
+                onValueChanged = {
+                    newValue ->
+                    email.value = newValue
 
-            ClickableLoginTextComponent(onTextSelected = {
-                "Login"
-                Log.d("Test", "Login clicked!")
-                onClick()
+                }
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            MyTextField(labelValue = "Full Name", textValue = fullName.value, onValueChanged = {
+                newValue ->
+                fullName.value = newValue
             })
+            Spacer(modifier = Modifier.height(10.dp))
+            MyTextField(labelValue = "Username", textValue = username.value, onValueChanged = {
+                newValue ->
+                username.value = newValue
+            }, )
+            Spacer(modifier = Modifier.height(10.dp))
+            MyTextField(labelValue = "Password", textValue = password.value, onValueChanged = {
+                newValue ->
+                password.value = newValue
+            }, isPassword = true)
+            Spacer(modifier = Modifier.height(10.dp))
+            AuthButtonComponent(value = "Sign Up") {
 
+                signUpWithEmailPassword(
+                    email = email.value,
+                    password = password.value,
+                    fullName = fullName.value,
+                    username = username.value,
+                    onSuccess = {
+                        // Handle sign-up success (if needed)
+                        // For example, you can navigate to the next screen
+                        onClick()
+//                        Log.d("SignUpScreen", "User ID: ${user.uid}")
+                        Log.d("SignUpScreen", "Email: ${email}")
+                        Log.d("SignUpScreen", "Full Name: $fullName")
+                        Log.d("SignUpScreen", "Username: $username")
+
+                        Log.d("Test", "Sign Up clicked!")
+                    },
+                    onError = { errorMessage ->
+                        // Handle sign-up error (show error message to the user, log, etc.)
+                        // For example, you can display an error message
+                        // myErrorMessage = errorMessage
+                       Log.d("Test", errorMessage)
+                    }
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            ClickableAuthTextComponent(
+                onLoginSelected = {
+                    // Null or navigate to the login screen
+                },
+                onSignUpSelected = {
+                    onClick()
+                }
+            )
         }
-
-
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreviewOfSignUpScreen() {
-//    Surface(
-//        color = yellow,
-//        modifier = Modifier
-//            .fillMaxSize()
-//    ) {
-//        Column(
-//            verticalArrangement = Arrangement.Top,
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(28.dp)
-//        ) {
-//            Spacer(modifier = Modifier.height(30.dp))
-//            NormalTextComponent(value = stringResource(id = R.string.app_name))
-//            Spacer(modifier = Modifier.height(10.dp))
-//            MyTextField(labelValue = "Email/Phone Number")
-//            Spacer(modifier = Modifier.height(10.dp))
-//            MyTextField(labelValue = "Full Name")
-//            Spacer(modifier = Modifier.height(10.dp))
-//            MyTextField(labelValue = "Username")
-//            Spacer(modifier = Modifier.height(10.dp))
-//            MyTextField(labelValue = "Password")
-//            Spacer(modifier = Modifier.height(10.dp))
-//            ButtonComponent(value = "Sign Up")
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//               ClickableLoginTextComponent(onTextSelected = {
-//
-//                   Log.d("Test", "Login clicked!")
-//               })
-//
-//        }
-//    }
+//private fun showToast(message: String) {
+//    val context = LocalContext.current
+//    val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+//    toast.show()
 //}
-//
+
+private fun signUpWithEmailPassword(
+    email: String,
+    password: String,
+    fullName: String,
+    username: String,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+) {
+    val auth = Firebase.auth
+    if (email.isNotEmpty() && password.isNotEmpty() && fullName.isNotEmpty() && username.isNotEmpty()) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    if (user != null) {
+                        Log.d("SignUpScreen", "User ID: ${user.uid}")
+                        Log.d("SignUpScreen", "Email: ${user.email}")
+                        Log.d("SignUpScreen", "Full Name: $fullName")
+                        Log.d("SignUpScreen", "Username: $username")
+                    }
+                    // Create a user profile in Firestore
+                    val userProfile = hashMapOf(
+                        "fullName" to fullName,
+                        "username" to username,
+                        "email" to email
+                    )
+
+                    val firestore = FirebaseFirestore.getInstance()
+                    firestore.collection("users")
+                        .document(user!!.uid)
+                        .set(userProfile)
+                        .addOnSuccessListener {
+                            // Handle sign-up success
+                            Log.d("SignUpScreen", "User profile created successfully")
+
+
+                            // Additional log to check if the data is stored in Firestore
+                            Log.d("SignUpScreen", "Data stored in Firestore: $userProfile")
+
+                            onSuccess()
+                        }
+                        .addOnFailureListener { e ->
+                            // Handle sign-up failure
+                            onError("Failed to create user profile: ${e.message}")
+                        }
+                } else {
+                    // Handle sign-up failure
+                    onError("Failed to sign up: ${task.exception?.message}")
+                }
+            }
+    } else {
+        // Handle sign-up failure
+        onError("Please fill in all fields ")
+        onError("$username $email $password $fullName")
+    }
+}
 

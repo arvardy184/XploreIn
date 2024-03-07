@@ -19,9 +19,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -48,11 +50,13 @@ fun TitleTextComponent(value: String){
     )
 }
 @Composable
-fun MyTextField(labelValue: String,
-                textValue: String,
-                onValueChanged: (String) -> Unit,
-                isPassword: Boolean = false) {
-    val textValue = remember { mutableStateOf("") }
+fun MyTextField(
+    labelValue: String,
+    textValue: String,
+    onValueChanged: (String) -> Unit,
+    isPassword: Boolean = false) {
+
+
     val passwordVisibility = remember { mutableStateOf(false) }
     Column {
         Text(
@@ -68,8 +72,8 @@ fun MyTextField(labelValue: String,
             textAlign = TextAlign.Start
         )
         OutlinedTextField(
-            value = textValue.value,
-            onValueChange = { textValue.value = it ; onValueChanged(textValue.value)},
+            value = textValue,
+            onValueChange = { onValueChanged(it) },
             keyboardOptions = KeyboardOptions.Default,
             visualTransformation = if (isPassword && !passwordVisibility.value) {
                 PasswordVisualTransformation()
