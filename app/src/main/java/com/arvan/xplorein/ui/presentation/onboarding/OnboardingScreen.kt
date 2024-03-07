@@ -19,10 +19,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.arvan.xplorein.ui.component.OnboardingButton
 import com.arvan.xplorein.ui.component.OnboardingTextButton
 import com.arvan.xplorein.ui.presentation.onboarding.Dimensi.MediumPadding2
+import com.arvan.xplorein.ui.theme.green
+import com.arvan.xplorein.ui.theme.orange
 import kotlinx.coroutines.launch
 
 
@@ -37,9 +40,9 @@ fun OnboardingScreen(onSignInClick: () -> Unit) {
         val buttonState = remember {
             derivedStateOf {
                 when(pagerState.currentPage){
-                    0 -> listOf("","Next")
-                    1 -> listOf("Back","Next")
-                    2 -> listOf("Back","Get Started")
+                    0 -> listOf("","NEXT")
+                    1 -> listOf("PREVIOUS","NEXT")
+                    2 -> listOf("PREVIOUS","GET STARTED")
                     else -> listOf("","")
                 }
             }
@@ -53,7 +56,7 @@ fun OnboardingScreen(onSignInClick: () -> Unit) {
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MediumPadding2,vertical = 10.dp)
+                .padding(horizontal = MediumPadding2, vertical = 10.dp)
                 .navigationBarsPadding(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -73,34 +76,47 @@ fun OnboardingScreen(onSignInClick: () -> Unit) {
         ){
 
 
-            Row (verticalAlignment = Alignment.CenterVertically){
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 val scope = rememberCoroutineScope()
-                if (buttonState.value[0].isNotEmpty()){
-                    OnboardingTextButton(text = buttonState.value[0],
+                if (buttonState.value[0].isNotEmpty()) {
+                    OnboardingButton(
+                        text = buttonState.value[0],
                         onClick = {
-                            scope.launch{
+                            scope.launch {
                                 pagerState.animateScrollToPage(page = pagerState.currentPage - 1)
                             }
-                        }
-                    )
+                        },
+                        containerColor = green,
+                        contentColor = Color.White,
+                        modifier = Modifier
+                            .weight(1f)// Tambahkan padding jika diperlukan
 
+                    )
                 }
-                OnboardingButton(text = buttonState.value[1],
+
+                OnboardingButton(
+                    text = buttonState.value[1],
                     onClick = {
                         Log.d("Test", "Sign up clicked! ${pagerState.currentPage}")
-                        scope.launch{
-                           if (pagerState.currentPage == 2){
-                               //navigate to sign up
+                        scope.launch {
+                            if (pagerState.currentPage == 2) {
+                                //navigate to sign up
                                 onSignInClick()
                             } else {
                                 pagerState.animateScrollToPage(page = pagerState.currentPage + 1)
                             }
-
                         }
-                    }
+                    },
+                    containerColor = orange,
+                    contentColor = Color.White,
+                    modifier = Modifier
+                        .weight(1f) // Tambahkan padding jika diperlukan
                 )
+
             }
-        }
-        Spacer(modifier = Modifier.weight(0.5f))
     }
-}
+        Spacer(modifier = Modifier.weight(0.5f))
+}}

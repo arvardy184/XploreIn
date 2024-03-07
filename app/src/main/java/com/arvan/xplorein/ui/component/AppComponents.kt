@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -218,32 +219,36 @@ fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
 
 
 @Composable
-fun OnboardingButton (
+fun OnboardingButton(
     text: String,
-    onClick:() -> Unit,
+    onClick: () -> Unit,
     containerColor: Color,
-    contentColor: Color
-){
+    contentColor: Color,
+    modifier: Modifier = Modifier
+) {
     Button(
         onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .height(56.dp)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 5.dp)
+            .fillMaxWidth(), // Memastikan tombol memenuhi lebar maksimum
         colors = ButtonDefaults.buttonColors(
-
             containerColor = containerColor,
             contentColor = contentColor
         ),
-        shape = RoundedCornerShape(20.dp) // Atur nilai corner radius sesuai keinginan
+        shape = RoundedCornerShape(20.dp)
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold)
+            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold), fontSize = 14.sp,
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+
+
         )
     }
-
 }
+
 @Composable
 fun OnboardingTextButton(
     text: String,

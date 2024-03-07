@@ -37,20 +37,7 @@ fun OnBoardingPage(
     page: Page
 ) {
     Column(modifier = modifier) {
-        val pagerState = rememberPagerState(initialPage = 0) {
-            pages.size
-        }
 
-        val buttonState = remember {
-            derivedStateOf {
-                when(pagerState.currentPage){
-                    0 -> listOf("","Next")
-                    1 -> listOf("Previous","Next")
-                    2 -> listOf("Previous","Get Started")
-                    else -> listOf("","")
-                }
-            }
-        }
 
         Card(
             modifier = modifier
