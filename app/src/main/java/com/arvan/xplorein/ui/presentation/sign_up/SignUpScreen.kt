@@ -29,13 +29,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arvan.xplorein.R
-import com.arvan.xplorein.ui.component.ButtonComponent
+import com.arvan.xplorein.ui.component.AuthButtonComponent
 import com.arvan.xplorein.ui.component.MyTextField
-import com.arvan.xplorein.ui.component.NormalTextComponent
-import com.arvan.xplorein.ui.component.ButtonComponent
 import com.arvan.xplorein.ui.component.ClickableLoginTextComponent
-import com.arvan.xplorein.ui.component.SmallTextComponent
-import com.arvan.xplorein.ui.component.TextButtonComponent
+
+import com.arvan.xplorein.ui.component.TitleTextComponent
 import com.arvan.xplorein.ui.theme.green
 import com.arvan.xplorein.ui.theme.red
 import com.arvan.xplorein.ui.theme.yellow
@@ -57,7 +55,7 @@ onClick : () -> Unit
                 .padding(28.dp)
         ) {
             Spacer(modifier = Modifier.height(30.dp))
-            NormalTextComponent(value = stringResource(id = R.string.app_name))
+            TitleTextComponent(value = stringResource(id = R.string.app_name))
             Spacer(modifier = Modifier.height(10.dp))
             MyTextField(labelValue = "Email/Phone Number")
             Spacer(modifier = Modifier.height(10.dp))
@@ -67,7 +65,7 @@ onClick : () -> Unit
             Spacer(modifier = Modifier.height(10.dp))
             MyTextField(labelValue = "Password")
             Spacer(modifier = Modifier.height(10.dp))
-            ButtonComponent(value = "Sign Up")
+            AuthButtonComponent(value = "Sign Up")
             Spacer(modifier = Modifier.height(16.dp))
 
             ClickableLoginTextComponent(onTextSelected = {
@@ -82,42 +80,42 @@ onClick : () -> Unit
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreviewOfSignUpScreen() {
-    Surface(
-        color = yellow,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(28.dp)
-        ) {
-            Spacer(modifier = Modifier.height(30.dp))
-            NormalTextComponent(value = stringResource(id = R.string.app_name))
-            Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Email/Phone Number")
-            Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Full Name")
-            Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Username")
-            Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Password")
-            Spacer(modifier = Modifier.height(10.dp))
-            ButtonComponent(value = "Sign Up")
-            Spacer(modifier = Modifier.height(16.dp))
-
-               ClickableLoginTextComponent(onTextSelected = {
-
-                   Log.d("Test", "Login clicked!")
-               })
-
-        }
-    }
-}
-
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreviewOfSignUpScreen() {
+//    Surface(
+//        color = yellow,
+//        modifier = Modifier
+//            .fillMaxSize()
+//    ) {
+//        Column(
+//            verticalArrangement = Arrangement.Top,
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(28.dp)
+//        ) {
+//            Spacer(modifier = Modifier.height(30.dp))
+//            NormalTextComponent(value = stringResource(id = R.string.app_name))
+//            Spacer(modifier = Modifier.height(10.dp))
+//            MyTextField(labelValue = "Email/Phone Number")
+//            Spacer(modifier = Modifier.height(10.dp))
+//            MyTextField(labelValue = "Full Name")
+//            Spacer(modifier = Modifier.height(10.dp))
+//            MyTextField(labelValue = "Username")
+//            Spacer(modifier = Modifier.height(10.dp))
+//            MyTextField(labelValue = "Password")
+//            Spacer(modifier = Modifier.height(10.dp))
+//            ButtonComponent(value = "Sign Up")
+//            Spacer(modifier = Modifier.height(16.dp))
+//
+//               ClickableLoginTextComponent(onTextSelected = {
+//
+//                   Log.d("Test", "Login clicked!")
+//               })
+//
+//        }
+//    }
+//}
+//
 

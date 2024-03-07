@@ -24,11 +24,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arvan.xplorein.R
-import com.arvan.xplorein.ui.component.ButtonComponent
+import com.arvan.xplorein.ui.component.AuthButtonComponent
 import com.arvan.xplorein.ui.component.ClickableLoginTextComponent
 import com.arvan.xplorein.ui.component.DividerTextCompoent
 import com.arvan.xplorein.ui.component.MyTextField
-import com.arvan.xplorein.ui.component.NormalTextComponent
 import com.arvan.xplorein.ui.component.SocialMediaRow
 import com.arvan.xplorein.ui.theme.yellow
 
@@ -72,7 +71,7 @@ fun SignInScreen(
                 .padding(28.dp)
         ) {
             Spacer(modifier = Modifier.height(30.dp))
-            NormalTextComponent(value = stringResource(id = R.string.app_name))
+            TitleTextComponent(value = stringResource(id = R.string.app_name))
             Spacer(modifier = Modifier.height(10.dp))
             Box(modifier = Modifier
                 .height(200.dp)
@@ -89,7 +88,7 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(10.dp))
             MyTextField(labelValue = "Password")
             Spacer(modifier = Modifier.height(10.dp))
-            ButtonComponent(value = "Sign In")
+            AuthButtonComponent(value = "Sign In")
             Spacer(modifier = Modifier.height(16.dp))
 
             ClickableLoginTextComponent(onTextSelected = {
@@ -108,4 +107,9 @@ fun SignInScreen(
 
 
     }
+}
+
+@Composable
+fun TitleTextComponent(value: String) {
+
 }

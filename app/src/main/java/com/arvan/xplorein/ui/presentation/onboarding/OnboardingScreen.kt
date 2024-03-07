@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.arvan.xplorein.ui.component.OnboardingButton
-import com.arvan.xplorein.ui.component.OnboardingTextButton
 import com.arvan.xplorein.ui.presentation.onboarding.Dimensi.MediumPadding2
 import com.arvan.xplorein.ui.theme.green
 import com.arvan.xplorein.ui.theme.orange
@@ -96,7 +95,6 @@ fun OnboardingScreen(onSignInClick: () -> Unit) {
 
                     )
                 }
-
                 OnboardingButton(
                     text = buttonState.value[1],
                     onClick = {
