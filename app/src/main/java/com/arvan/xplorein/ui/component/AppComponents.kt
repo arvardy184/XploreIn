@@ -1,23 +1,31 @@
 package com.arvan.xplorein.ui.component
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -29,7 +37,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -39,10 +49,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.theme.InterFontFamily
 import com.arvan.xplorein.ui.theme.green
 import com.arvan.xplorein.ui.theme.orange
 import com.arvan.xplorein.ui.theme.yellow
+
 
 
 @Composable
@@ -182,8 +194,12 @@ fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
     }
 
     ClickableText(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 40.dp),
+
         style = TextStyle(
+            fontFamily = InterFontFamily,
             fontSize = MaterialTheme.typography.bodyLarge.fontSize,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center,
@@ -204,7 +220,9 @@ fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
 @Composable
 fun OnboardingButton (
     text: String,
-    onClick:() -> Unit
+    onClick:() -> Unit,
+    containerColor: Color,
+    contentColor: Color
 ){
     Button(
         onClick = onClick,
@@ -214,8 +232,8 @@ fun OnboardingButton (
             .padding(horizontal = 16.dp),
         colors = ButtonDefaults.buttonColors(
 
-            containerColor = orange,
-            contentColor = Color.White
+            containerColor = containerColor,
+            contentColor = contentColor
         ),
         shape = RoundedCornerShape(20.dp) // Atur nilai corner radius sesuai keinginan
     ) {
@@ -276,9 +294,9 @@ fun DividerTextCompoent(){
 }
 
 @Composable
-fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
-    val initText = "Already have an account? "
-    val loginText = "Login"
+fun ClickableTextComponent(onTextSelected: (String) -> Unit) {
+    val initText = "You don't have an account? "
+    val loginText = "Sign Up"
 
     val annotatedString = buildAnnotatedString {
         append(initText)
@@ -293,7 +311,7 @@ fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         style = TextStyle(
             fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-            fontWeight = FontWeight.Normal,
+            fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center,
         ),
         text = annotatedString,
@@ -307,5 +325,35 @@ fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
         }
     )
 }
+@Composable
+fun SocialMediaRow(onFacebookClick: () -> Unit, onGoogleClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        // Fb Icon
+        Image(
+            painter = painterResource(id = R.drawable.fb),
+            contentDescription = null,
+            modifier = Modifier
+                .size(28.dp)
+                .clickable { onFacebookClick() }
+        )
+
+        // Google Icon
+        Image(
+            painter = painterResource(id = R.drawable.google),
+            contentDescription = null,
+            modifier = Modifier
+                .size(24.dp)
+                .clickable { onGoogleClick() }
+        )
+    }
+}
+
+
+
 
 

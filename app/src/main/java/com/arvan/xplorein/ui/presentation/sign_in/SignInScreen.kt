@@ -29,6 +29,7 @@ import com.arvan.xplorein.ui.component.ClickableLoginTextComponent
 import com.arvan.xplorein.ui.component.DividerTextCompoent
 import com.arvan.xplorein.ui.component.MyTextField
 import com.arvan.xplorein.ui.component.NormalTextComponent
+import com.arvan.xplorein.ui.component.SocialMediaRow
 import com.arvan.xplorein.ui.theme.yellow
 
 
@@ -73,7 +74,7 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(30.dp))
             NormalTextComponent(value = stringResource(id = R.string.app_name))
             Spacer(modifier = Modifier.height(10.dp))
-            Box(modifier =  Modifier
+            Box(modifier = Modifier
                 .height(200.dp)
                 .width(200.dp)) {
                 Image(
@@ -98,7 +99,11 @@ fun SignInScreen(
             })
             Spacer(modifier = Modifier.height(16.dp))
             DividerTextCompoent()
-
+            SocialMediaRow(
+                {},{
+                    onSignInClick()
+                }
+            )
         }
 
 
