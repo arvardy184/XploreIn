@@ -57,11 +57,12 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("com.google.dagger:hilt-android:2.44")
     implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("com.google.firebase:firebase-firestore:24.10.3")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     val lifecycle_version = "2.7.0"
     val arch_version = "2.2.0"
-
+    implementation ("androidx.compose.material:material-icons-extended:1.3.1")
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // ViewModel utilities for Compose

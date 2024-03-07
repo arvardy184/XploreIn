@@ -41,6 +41,14 @@ fun AppNavigation(navController: NavHostController,
 
         composable("sign_up") {
             SignUpScreen(
+                emailOrPhoneNumber = "",
+                onEmailOrPhoneNumberChanged = {},
+                fullName = "",
+                onFullNameChanged = {},
+                username = "",
+                onUsernameChanged = {},
+                password = "",
+                onPasswordChanged = {},
                 onClick = {
                     navController.navigate("sign_in")
                 }

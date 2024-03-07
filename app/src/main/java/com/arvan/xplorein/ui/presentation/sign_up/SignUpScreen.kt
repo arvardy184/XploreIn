@@ -20,6 +20,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +42,15 @@ import com.arvan.xplorein.ui.theme.yellow
 
 @Composable
 fun SignUpScreen(
+    emailOrPhoneNumber: String,
+    onEmailOrPhoneNumberChanged: (String) -> Unit,
+    fullName: String,
+    onFullNameChanged: (String) -> Unit,
+    username: String,
+    onUsernameChanged: (String) -> Unit,
+    password: String,
+    onPasswordChanged: (String) -> Unit,
+
 onClick : () -> Unit
 ){
     Surface (color = yellow,
@@ -54,16 +65,17 @@ onClick : () -> Unit
                 .fillMaxSize()
                 .padding(28.dp)
         ) {
+
             Spacer(modifier = Modifier.height(30.dp))
             TitleTextComponent(value = stringResource(id = R.string.app_name))
             Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Email/Phone Number")
+            MyTextField(labelValue = "Email/Phone Number", textValue = emailOrPhoneNumber, onValueChanged = onEmailOrPhoneNumberChanged)
             Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Full Name")
+            MyTextField(labelValue = "Full Name", textValue = fullName, onValueChanged = onFullNameChanged)
             Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Username")
+            MyTextField(labelValue = "Username", textValue = username, onValueChanged = onUsernameChanged)
             Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Password")
+            MyTextField(labelValue = "Password", textValue = password, onValueChanged = onPasswordChanged,isPassword = true)
             Spacer(modifier = Modifier.height(10.dp))
             AuthButtonComponent(value = "Sign Up")
             Spacer(modifier = Modifier.height(16.dp))

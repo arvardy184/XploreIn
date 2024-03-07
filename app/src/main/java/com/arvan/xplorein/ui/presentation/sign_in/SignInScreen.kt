@@ -84,9 +84,9 @@ fun SignInScreen(
                     contentScale = ContentScale.Crop
                 )
             }
-            MyTextField(labelValue = "Email/Phone Number")
-            Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Password")
+//            MyTextField(labelValue = "Email/Phone Number")
+//            Spacer(modifier = Modifier.height(10.dp))
+//            MyTextField(labelValue = "Password")
             Spacer(modifier = Modifier.height(10.dp))
             AuthButtonComponent(value = "Sign In")
             Spacer(modifier = Modifier.height(16.dp))
