@@ -16,12 +16,15 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -31,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.theme.InterFontFamily
 import com.arvan.xplorein.ui.theme.green
@@ -250,6 +254,26 @@ fun SocialMediaRow(onFacebookClick: () -> Unit, onGoogleClick: () -> Unit) {
                 .size(24.dp)
                 .clickable { onGoogleClick() }
         )
+    }
+}
+
+@Composable
+fun FloatingButtonWithNavigation(
+    navController: NavController,
+    destinationRoute: String,
+    icon: ImageVector
+) {
+    FloatingActionButton(
+        onClick = {
+            navController.navigate(destinationRoute)
+        },
+        modifier = Modifier
+            .padding(16.dp)
+
+     // Menempatkan tombol di pojok kanan
+    // bawah
+    ) {
+Icon(imageVector = icon, contentDescription = destinationRoute )
     }
 }
 

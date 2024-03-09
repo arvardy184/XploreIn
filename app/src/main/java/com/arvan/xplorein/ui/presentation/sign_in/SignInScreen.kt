@@ -31,41 +31,31 @@ import com.arvan.xplorein.ui.component.MyTextField
 import com.arvan.xplorein.ui.component.SocialMediaRow
 import com.arvan.xplorein.ui.component.TitleTextComponent
 import com.arvan.xplorein.ui.theme.yellow
-
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 @Composable
 fun SignInScreen(
     state: SignInState,
-    onSignInClick: () -> Unit
+    onSignInClick: () -> Unit,
+    onSignUpClick: () -> Unit // Add a callback for sign up click
 ) {
+
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val context = LocalContext.current
-    LaunchedEffect(key1 = state.signInError ){
+
+    LaunchedEffect(key1 = state.signInError) {
         state.signInError?.let { error ->
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
         }
     }
 
-//    Box(modifier = Modifier
-//        .fillMaxSize()
-//        .padding(16.dp),
-//        contentAlignment = Alignment.Center
-//    ){
-//        Button(onClick = onSignInClick ) {
-//            Text(text = "Sign In")
-//        }
-//        if (state.isLoading){
-//            Text(text = "Loading...")
-//        }
-//        if (state.isSignInSuccessful){
-//            Text(text = "Sign In Successful")
-//        }
-//    }
-    Surface (color = yellow,
+    Surface(
+        color = yellow,
         modifier = Modifier
             .fillMaxSize()
-    ){
+    ) {
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -87,49 +77,81 @@ fun SignInScreen(
                     contentScale = ContentScale.Crop
                 )
             }
-            MyTextField(labelValue = "Email/Phone Number", textValue =email.value, onValueChanged = {
-                newValue ->
-                email.value = newValue
-            })
+            MyTextField(labelValue = "Email/Phone Number", textValue = email.value, onValueChanged = {newValue ->
+                email.value = newValue}  )
             Spacer(modifier = Modifier.height(10.dp))
-            MyTextField(labelValue = "Password", textValue = password.value, onValueChanged = {
-                newValue ->
-                password.value = newValue
+            MyTextField(
+                labelValue = "Password",
+                textValue = password.value,
+                onValueChanged = { newValue ->
+                    password.value = newValue
+                },
+                isPassword = true
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+            AuthButtonComponent(value = "Sign In") {
+                signInWithEmailAndPassword(
+                    email = email.value,
+                    password = password.value,
+                    onSuccess = {
+                        // Handle sign-in success (if needed)
+                        Log.d("SignInScreen", "Sign In successful!")
+                        onSignInClick()
+                    },
+                    onError = { errorMessage ->
+                        // Handle sign-in error (show error message to the user, log, etc.)
+                        // For example, you can update a state variable to display the error
+                        // myErrorMessage = errorMessage
+
+                        // Log the error message
+                        Log.e("SignInScreen", errorMessage)
+                    }
+                )
             }
-            , isPassword = true)
-
-            Spacer(modifier = Modifier.height(10.dp))
-            AuthButtonComponent(value = "Sign In", onClickAuth = {
-
-            })
             Spacer(modifier = Modifier.height(16.dp))
 
             ClickableAuthTextComponent(
-               onLoginSelected = {
-
-                    Log.d("Test", "Sign In clicked!")
+                onLoginSelected = {
+                    // Handle login click
                     onSignInClick()
                 },
-                onSignUpSelected = {}
-
-
-//                onTextSelected = {
-//                "Login"
-//                Log.d("Test", "Sign Up clicked!")
-////                onClick()
-//            }
+                onSignUpSelected = {
+                    // Handle sign up click
+                    onSignUpClick()
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
             DividerTextCompoent()
             SocialMediaRow(
-                {},{
+                {}, {
                     onSignInClick()
                 }
             )
         }
-
-
     }
 }
 
-
+private fun signInWithEmailAndPassword(
+    email: String,
+    password: String,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+) {
+    val auth = Firebase.auth
+    if (email.isNotEmpty() && password.isNotEmpty()) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Handle sign-in success
+                    Log.d("SignInScreen", "Sign In successful!")
+                    onSuccess()
+                } else {
+                    // Handle sign-in failure
+                    onError("Failed to sign in: ${task.exception?.message}")
+                }
+            }
+    } else {
+        onError("Please fill in all fields")
+    }
+}

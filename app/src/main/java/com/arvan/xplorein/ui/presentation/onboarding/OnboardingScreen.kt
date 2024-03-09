@@ -35,7 +35,6 @@ fun OnboardingScreen(onSignInClick: () -> Unit) {
         val pagerState = rememberPagerState(initialPage = 0) {
             pages.size
         }
-
         val buttonState = remember {
             derivedStateOf {
                 when(pagerState.currentPage){
@@ -50,8 +49,6 @@ fun OnboardingScreen(onSignInClick: () -> Unit) {
         HorizontalPager(state = pagerState) { index ->
             OnBoardingPage(page = pages[index])
         }
-
-
         Row (
             modifier = Modifier
                 .fillMaxWidth()

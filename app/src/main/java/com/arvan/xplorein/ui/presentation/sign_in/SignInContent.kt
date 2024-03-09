@@ -66,6 +66,9 @@ fun SignInContent(navController: NavController, googleAuthUiClient: GoogleAuthUi
                     ).build()
                 )
             }
+              },
+        onSignUpClick = {
+            navController.navigate("sign_up")
         }
     )
 }

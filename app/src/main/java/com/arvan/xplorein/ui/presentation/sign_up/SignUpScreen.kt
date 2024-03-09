@@ -46,14 +46,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun SignUpScreen(
-
+    onSignInClick: () -> Unit,
     onClick: () -> Unit
 ) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val fullName = remember { mutableStateOf("") }
     val username = remember { mutableStateOf("") }
-    val context = LocalContext.current
 
     Surface(
         color = yellow,
@@ -124,6 +123,7 @@ fun SignUpScreen(
             ClickableAuthTextComponent(
                 onLoginSelected = {
                     // Null or navigate to the login screen
+                               onSignInClick()
                 },
                 onSignUpSelected = {
                     onClick()
