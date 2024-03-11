@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,12 +15,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAlarm
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Label
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
@@ -43,6 +48,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
+import com.arvan.xplorein.ui.component.HomeButton
+import com.arvan.xplorein.ui.component.RoundedImageWithText
 import com.arvan.xplorein.ui.component.SearchField
 import com.arvan.xplorein.ui.presentation.onboarding.Dimensi
 import com.arvan.xplorein.ui.theme.XploreInTheme
@@ -53,8 +60,6 @@ fun HomeScreen(
     modifier: Modifier = Modifier.fillMaxSize()
 ) {
 XploreInTheme {
-
-
     // Content
     Column(
         modifier = modifier
@@ -67,25 +72,27 @@ XploreInTheme {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clip(RoundedCornerShape(16.dp)),
+                    .clip(RoundedCornerShape(16.dp))
+
+                    ,
+
                 contentAlignment = Alignment.BottomCenter
             ) {
                 // Gambar dengan konten scale Crop
                 Image(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        ,
                     painter = painterResource(id = R.drawable.onboarding1),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
-
                 // Wadah untuk teks dan lingkaran (circle shape)
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(20.dp)
                         .padding(top = 20.dp,),
-
                     contentAlignment = Alignment.TopCenter
                 ) {
                     // Teks
@@ -123,124 +130,47 @@ XploreInTheme {
 
 
                 }
-                SearchField(
-                    modifier = Modifier,
-                    onValueChange = {},
-                    placeholder = "Search",
-                    value = "",
-                    onSearchClick = {}
-
-                )
+//                SearchField(
+//                    modifier = Modifier,
+//                    onValueChange = {},
+//                    placeholder = "Search",
+//                    value = "",
+//                    onSearchClick = {}
+//
+//                )
             }
         }
-        // Header
-
-
-
-
-        // Content Area
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
+        LazyRow(
+            modifier = Modifier.padding(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Tour Guide Section
-            Text(
-                text = "Tour Guide",
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(top = 16.dp)
-            )
+            item {
+                HomeButton(icon = coil.base.R.drawable.abc_vector_test, text = "Wishlist", onClick = { /*TODO*/ })
+            }
+            item {
+                HomeButton(icon = coil.base.R.drawable.abc_vector_test, text = "Wishlist", onClick = { /*TODO*/ })
+            }
+            item {
+                HomeButton(icon = coil.base.R.drawable.abc_vector_test, text = "Wishlist", onClick = { /*TODO*/ })
+            }
+            item {
+                HomeButton(icon = coil.base.R.drawable.abc_vector_test, text = "Wishlist", onClick = { /*TODO*/ })
+            }
+        }
 
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.onboarding1),
-                    contentDescription = "Placeholder for Tour Guide 1",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(4.dp))
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2), // Create a grid with 2 columns
+            modifier = Modifier.padding(16.dp),
+            contentPadding = PaddingValues(16.dp) // Optional: spacing between items
+        ) {
+            items(20) {
+                RoundedImageWithText(
+                    text = "Bali",
+                    imageResId = R.drawable.kota1
                 )
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.onboarding2),
-                    contentDescription = "Placeholder for Tour Guide 2",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
             }
 
-            // Partner Section
-            Text(
-                text = "Patner",
-                style = MaterialTheme.typography.displaySmall,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.onboarding2),
-                    contentDescription = "Placeholder for Partner 1",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                )
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.onboarding2),
-                    contentDescription = "Placeholder for Partner 2",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-            }
-
-            // Food Section
-            Text(
-                text = "Food",
-                style = MaterialTheme.typography.displaySmall,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.onboarding2),
-                    contentDescription = "Placeholder for Food 1",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Image(
-                    painter = painterResource(id = R.drawable.onboarding2),
-                    contentDescription = "Placeholder for Food 2",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-            }
         }
     }
-}}
+}
+}

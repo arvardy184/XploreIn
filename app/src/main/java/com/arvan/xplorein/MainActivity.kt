@@ -17,6 +17,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -39,7 +41,6 @@ import com.arvan.xplorein.ui.presentation.sign_in.SignInViewModel
 import com.arvan.xplorein.ui.presentation.sign_up.SignUpScreen
 import com.arvan.xplorein.ui.theme.XploreInTheme
 import kotlinx.coroutines.launch
-
 class MainActivity : ComponentActivity() {
 
     private val googleAuthUiClient by lazy {
@@ -62,6 +63,12 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
+                    val isLoggedIn = remember { mutableStateOf(false) }
+
+                    // Observe login status
+                    LaunchedEffect(Unit) {
+                        isLoggedIn.value = googleAuthUiClient.getSignedInUser() != null
+                    }
 
                     // Scaffold content goes here
                     Scaffold(
@@ -74,22 +81,23 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // BottomNavBar positioned outside Scaffold
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .height(50.dp)
-                            .padding(bottom = 48.dp)
-                    ) {
-                        BottomNavBar(
-                            navController = navController,
+                    // Show BottomNavBar only when logged in or on home screen
+                    if (isLoggedIn.value && navController.currentDestination?.route == "home") {
+                        Box(
                             modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .padding(16.dp)
-                        )
+                                .fillMaxSize()
+                                .height(50.dp)
+                                .padding(bottom = 48.dp)
+                        ) {
+                            BottomNavBar(
+                                navController = navController,
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .padding(16.dp)
+                            )
+                        }
                     }
                 }
-
             }
         }
     }

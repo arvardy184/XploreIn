@@ -2,15 +2,22 @@ package com.arvan.xplorein.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
@@ -23,6 +30,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -32,12 +42,14 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.theme.InterFontFamily
 import com.arvan.xplorein.ui.theme.green
+import com.arvan.xplorein.ui.theme.yellow
 
 @Composable
 fun AuthButtonComponent(value:String,onClickAuth: () -> Unit) {
@@ -276,4 +288,128 @@ fun FloatingButtonWithNavigation(
 Icon(imageVector = icon, contentDescription = destinationRoute )
     }
 }
+@Composable
+fun HomeButton(
+    icon: Int,
+    text: String,
+    onClick: () -> Unit,
+    backgroundColor: Color = Color.Green,
+    contentColor: Color = Color.White,
+) {
+    Column(
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(16.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(yellow)
+                .border(
+                    brush = Brush.horizontalGradient(colors = listOf(yellow, green)),
+                    width = 1.dp,
+                    shape = CircleShape
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = null,
+                tint = green,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
 
+            text = text,
+            color = Color.Black,
+            textAlign = TextAlign.Center,
+            fontSize = 14.sp
+        )
+    }
+}
+
+@Composable
+fun RoundedImageWithText(
+    imageResId: Int,
+    text: String,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    imageModifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.padding(16.dp)) {
+        Image(
+            painter = painterResource(id = imageResId),
+            contentDescription = contentDescription,
+            modifier = Modifier
+//                .shadow(elevation = 4.dp, spotColor = Color(0x40000000), ambientColor = Color(0x40000000))
+                .width(160.dp)
+                .height(160.dp)
+                .fillMaxSize()
+                .clip(RoundedCornerShape(10.dp))
+                .then(imageModifier)
+        )
+        Text(
+            text = text,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(20.dp)
+                .padding(vertical = 10.dp)
+                .then(textModifier),
+            color = Color.White,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+@Composable
+fun ProfileButton(
+    icon: ImageVector,
+    text: String,
+    onClick: () -> Unit,
+    backgroundColor: Color = Color.White,
+    contentColor: Color = Color.Black,
+    cornerRadius: Dp = 8.dp,
+    height: Dp = 48.dp,
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .height(height)
+            .fillMaxWidth()
+            .background(backgroundColor, shape = RoundedCornerShape(cornerRadius))
+            .shadow(
+                elevation = 4.dp,
+                spotColor = Color(0x40000000),
+                ambientColor = Color(0x40000000)
+            )
+            .padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(all = 0.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor, contentColor = contentColor)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+//            Icon(
+//                painter = painterResource(id = icon),
+//                contentDescription = null,
+//                tint = contentColor,
+//                modifier = Modifier.size(24.dp)
+//            )
+            Icon(imageVector =icon, contentDescription = text, tint = contentColor, modifier = Modifier.size(24.dp))
+
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = text,
+                color = contentColor,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+            )
+        }
+    }
+}

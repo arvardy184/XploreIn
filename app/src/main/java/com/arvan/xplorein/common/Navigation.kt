@@ -41,8 +41,8 @@ fun AppNavigation(navController: NavHostController,
 
 
         composable("profile") {
-            ProfileScreeen(navController = navController)
-//            ProfileContent(navController = navController,lifecycleScope = lifecycleScope,googleAuthUiClient = googleAuthUiClient,applicationContext = applicationContext)
+
+            ProfileContent(navController = navController,lifecycleScope = lifecycleScope,googleAuthUiClient = googleAuthUiClient,applicationContext = applicationContext)
         }
 
         composable("sign_up") {

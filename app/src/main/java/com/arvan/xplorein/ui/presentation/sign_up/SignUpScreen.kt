@@ -74,7 +74,6 @@ fun SignUpScreen(
                 onValueChanged = {
                     newValue ->
                     email.value = newValue
-
                 }
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -94,7 +93,6 @@ fun SignUpScreen(
             }, isPassword = true)
             Spacer(modifier = Modifier.height(10.dp))
             AuthButtonComponent(value = "Sign Up") {
-
                 signUpWithEmailPassword(
                     email = email.value,
                     password = password.value,

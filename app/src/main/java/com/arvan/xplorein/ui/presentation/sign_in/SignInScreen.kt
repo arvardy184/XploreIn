@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.component.AuthButtonComponent
 import com.arvan.xplorein.ui.component.ClickableAuthTextComponent
@@ -37,6 +38,7 @@ import com.google.firebase.auth.auth
 @Composable
 fun SignInScreen(
     state: SignInState,
+
     onSignInClick: () -> Unit,
     onSignUpClick: () -> Unit // Add a callback for sign up click
 ) {
@@ -97,7 +99,7 @@ fun SignInScreen(
                     onSuccess = {
                         // Handle sign-in success (if needed)
                         Log.d("SignInScreen", "Sign In successful!")
-                        onSignInClick()
+
                     },
                     onError = { errorMessage ->
                         // Handle sign-in error (show error message to the user, log, etc.)
@@ -136,7 +138,8 @@ private fun signInWithEmailAndPassword(
     email: String,
     password: String,
     onSuccess: () -> Unit,
-    onError: (String) -> Unit
+    onError: (String) -> Unit,
+
 ) {
     val auth = Firebase.auth
     if (email.isNotEmpty() && password.isNotEmpty()) {
@@ -145,7 +148,7 @@ private fun signInWithEmailAndPassword(
                 if (task.isSuccessful) {
                     // Handle sign-in success
                     Log.d("SignInScreen", "Sign In successful!")
-                    onSuccess()
+
                 } else {
                     // Handle sign-in failure
                     onError("Failed to sign in: ${task.exception?.message}")
