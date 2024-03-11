@@ -41,7 +41,8 @@ fun ProfileScreen(
 
         
         Row(modifier = Modifier,
-                Arrangement.SpaceBetween
+                Arrangement.SpaceBetween,
+
             ){
 
             TitleTextComponent(value = stringResource(id = R.string.app_name))
@@ -61,10 +62,7 @@ fun ProfileScreen(
                 fontSize = 36.sp,
                 fontWeight = FontWeight.SemiBold)
             Spacer(modifier = Modifier.height(16.dp))
-
-
         }
-
         ProfileButton(icon = Icons.Default.Menu, text = "View and Edit Profile", onClick = { /*TODO*/ })
         Button(onClick = onSignOutClick) {
             Text(text = "Sign Out")

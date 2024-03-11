@@ -25,7 +25,7 @@ fun AppNavigation(navController: NavHostController,
                   lifecycleScope: LifecycleCoroutineScope,
                   googleAuthUiClient: GoogleAuthUiClient,
                   applicationContext: Context) {
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "profile") {
 
         composable("onboarding") {
             OnboardingScreen(

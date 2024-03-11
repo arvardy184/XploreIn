@@ -364,45 +364,51 @@ fun RoundedImageWithText(
         )
     }
 }
+
 @Composable
 fun ProfileButton(
     icon: ImageVector,
     text: String,
     onClick: () -> Unit,
-    backgroundColor: Color = Color.White,
+    backgroundColor: Color = yellow,
     contentColor: Color = Color.Black,
-    cornerRadius: Dp = 8.dp,
-    height: Dp = 48.dp,
+    cornerRadius: Dp = 10.dp,
+    height: Dp = 36.dp,
 ) {
     Button(
         onClick = onClick,
         modifier = Modifier
+            .padding(20.dp)
+            .clip(RoundedCornerShape(cornerRadius))
             .height(height)
             .fillMaxWidth()
-            .background(backgroundColor, shape = RoundedCornerShape(cornerRadius))
+//            .background(backgroundColor)
+
             .shadow(
+                ambientColor = green,
                 elevation = 4.dp,
-                spotColor = Color(0x40000000),
-                ambientColor = Color(0x40000000)
+                spotColor = green,
+//                clip = true,
             )
-            .padding(horizontal = 16.dp),
-        contentPadding = PaddingValues(all = 0.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor, contentColor = contentColor)
+
+           ,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = backgroundColor,
+            contentColor = contentColor
+        )
+//        contentPadding = PaddingValues(all = 0.dp),
+//        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor, contentColor = contentColor)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-//            Icon(
-//                painter = painterResource(id = icon),
-//                contentDescription = null,
-//                tint = contentColor,
-//                modifier = Modifier.size(24.dp)
-//            )
-            Icon(imageVector =icon, contentDescription = text, tint = contentColor, modifier = Modifier.size(24.dp))
+            horizontalArrangement = Arrangement.Start,
 
-            Spacer(modifier = Modifier.width(8.dp))
+        ) {
+//
+            Icon(imageVector = icon, contentDescription = text, tint = contentColor, modifier = Modifier.size(24.dp))
+
+            Spacer(modifier = Modifier.width(40.dp))
             Text(
                 text = text,
                 color = contentColor,
