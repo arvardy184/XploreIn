@@ -370,23 +370,25 @@ fun ProfileButton(
     icon: ImageVector,
     text: String,
     onClick: () -> Unit,
-    backgroundColor: Color = yellow,
+    backgroundColor: Color = Color.White,
     contentColor: Color = Color.Black,
-    cornerRadius: Dp = 10.dp,
-    height: Dp = 36.dp,
+    cornerRadius: Dp = 20.dp,
+    height: Dp = 40.dp,
 ) {
     Button(
         onClick = onClick,
         modifier = Modifier
             .padding(20.dp)
+            .border( shape = RoundedCornerShape(cornerRadius), width = 1.dp, color = green)
             .clip(RoundedCornerShape(cornerRadius))
             .height(height)
             .fillMaxWidth()
+
 //            .background(backgroundColor)
 
             .shadow(
                 ambientColor = green,
-                elevation = 4.dp,
+                elevation = 10.dp,
                 spotColor = green,
 //                clip = true,
             )
@@ -406,7 +408,7 @@ fun ProfileButton(
 
         ) {
 //
-            Icon(imageVector = icon, contentDescription = text, tint = contentColor, modifier = Modifier.size(24.dp))
+            Icon(imageVector = icon, contentDescription = text, tint = green, modifier = Modifier.size(24.dp))
 
             Spacer(modifier = Modifier.width(40.dp))
             Text(
@@ -415,6 +417,7 @@ fun ProfileButton(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 maxLines = 1,
+
             )
         }
     }
