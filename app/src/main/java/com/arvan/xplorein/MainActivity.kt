@@ -72,7 +72,6 @@ class MainActivity : ComponentActivity() {
                     }
                     // Scaffold content goes here
                     Scaffold(
-
                         bottomBar = {
                             BottomNavBar(
                                 navController = navController,
@@ -89,25 +88,6 @@ class MainActivity : ComponentActivity() {
                             applicationContext = applicationContext
                         )
 
-
-//                        if (isLoggedIn.value) {
-//                            val isHome = navController.currentDestination?.route == "home"
-//                            if (isHome) {
-//                                Box(
-//                                    modifier = Modifier
-//                                        .fillMaxSize()
-//                                        .height(50.dp)
-//                                        .padding(bottom = 48.dp)
-//                                ) {
-//                                    BottomNavBar(
-//                                        navController = navController,
-//                                        modifier = Modifier
-//                                            .align(Alignment.BottomCenter)
-//                                            .padding(16.dp)
-//                                    )
-//                                }
-//                            }
-//                        }
                     }
                 }
             }

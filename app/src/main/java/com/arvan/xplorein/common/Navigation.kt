@@ -45,7 +45,7 @@ fun AppNavigation(navController: NavHostController,
         }
 
 
-        composable("profile") {
+        composable(BottomNavItem.Profile.route) {
 
             ProfileContent(navController = navController,lifecycleScope = lifecycleScope,googleAuthUiClient = googleAuthUiClient,applicationContext = applicationContext)
         }
@@ -61,11 +61,11 @@ fun AppNavigation(navController: NavHostController,
             )
         }
 
-        composable("home") {
+        composable(BottomNavItem.Home.route) {
             HomeScreen(navController = navController, modifier = Modifier)
         }
 
-        composable ("booking"){
+        composable (BottomNavItem.Booking.route){
             // TODO
             BookingScreen(navController = navController)
         }

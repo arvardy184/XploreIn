@@ -17,8 +17,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -57,6 +60,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
+import com.arvan.xplorein.R
+import com.arvan.xplorein.ui.component.Notification
+import com.arvan.xplorein.ui.component.NotificationItem
 import com.arvan.xplorein.ui.presentation.onboarding.pages
 import com.arvan.xplorein.ui.theme.booking
 import com.arvan.xplorein.ui.theme.green
@@ -94,7 +100,7 @@ fun NotificationScreen(navController: NavController) {
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor  = Color.Green)
             )
-        }
+        }, bottomBar = {}
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -144,20 +150,38 @@ fun TabBar(pagerState: PagerState) {
     ) {
         tabTitles.forEachIndexed { index, title ->
             val backgroundColor =
-                if (index == selectedTab.intValue) Color.Green else Color.Gray
+                if (index == selectedTab.intValue) Color.Gray else Color.White
 
             Box(
                 modifier = Modifier
-                    .background(backgroundColor)
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(16.dp))
+
                     .clickable {
                         selectedTab.intValue = index
-                       pagerState.currentPage
+                        pagerState.currentPage
 
                     }
             ) {
-                Text(text = title)
+                val notifications = listOf(
+                    Notification(
+                        profilePictureResId = R.drawable.fb,
+                        profileName = "Jane Doe",
+                        text = "Taylor Swift wants to be your partner!"
+                    ),
+                    Notification(
+                        profilePictureResId = R.drawable.fb,
+                        profileName = "John Smith",
+                        text = "Booking success! Please check your E-mail"
+                    )
+                )
+
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(notifications) { notification ->
+                        NotificationItem(
+                            notification = notification,
+                            onClick = { /* Handle notification click */ }
+                        )
+                    }
+                }
             }
         }
     }
