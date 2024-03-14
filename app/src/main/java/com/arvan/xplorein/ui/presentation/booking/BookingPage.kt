@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -57,7 +59,9 @@ fun BookingScreen(navController: NavController) {
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = booking)
         )
-    }) { innerPadding -> // Use padding from the Scaffold
+
+    },
+      ) { innerPadding -> // Use padding from the Scaffold
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -110,13 +114,18 @@ fun BookingScreen(navController: NavController) {
 
 @Composable
 fun GuidesPage() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text = "Guides Page",
-            fontSize = 30.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
+    Column( modifier = Modifier.padding(20.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        //list view
+        LazyColumn(modifier = Modifier){
+            items(10){
+                ElevatedCardExample(date = "17 September 2024", price = "Rp. 28.590", onSeeDetailsClick = {})
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+//        ElevatedCardExample(date = "17 September 2024", price = "Rp. 28.590", onSeeDetailsClick = {})
     }
 }
 

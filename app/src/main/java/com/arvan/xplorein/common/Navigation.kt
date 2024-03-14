@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.arvan.xplorein.ui.presentation.NotificationScreen
 import com.arvan.xplorein.ui.presentation.booking.BookingScreen
 import com.arvan.xplorein.ui.presentation.home.HomeScreen
 import com.arvan.xplorein.ui.presentation.onboarding.OnboardingScreen
@@ -25,7 +26,11 @@ fun AppNavigation(navController: NavHostController,
                   lifecycleScope: LifecycleCoroutineScope,
                   googleAuthUiClient: GoogleAuthUiClient,
                   applicationContext: Context) {
-    NavHost(navController = navController, startDestination = "profile") {
+    NavHost(navController = navController, startDestination = "home") {
+
+        composable("notification"){
+            NotificationScreen(navController = navController)
+        }
 
         composable("onboarding") {
             OnboardingScreen(

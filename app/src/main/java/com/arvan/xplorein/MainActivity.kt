@@ -10,6 +10,7 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +43,6 @@ import com.arvan.xplorein.ui.presentation.sign_up.SignUpScreen
 import com.arvan.xplorein.ui.theme.XploreInTheme
 import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
-
     private val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
             context = applicationContext,
@@ -57,6 +57,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             XploreInTheme {
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -69,9 +70,17 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(Unit) {
                         isLoggedIn.value = googleAuthUiClient.getSignedInUser() != null
                     }
-
                     // Scaffold content goes here
                     Scaffold(
+
+                        bottomBar = {
+                            BottomNavBar(
+                                navController = navController,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                            )
+                        },
                     ) {
                         AppNavigation(
                             navController = navController,
@@ -79,23 +88,26 @@ class MainActivity : ComponentActivity() {
                             googleAuthUiClient = googleAuthUiClient,
                             applicationContext = applicationContext
                         )
-                    }
 
-                    // Show BottomNavBar only when logged in or on home screen
-                    if (isLoggedIn.value && navController.currentDestination?.route == "home") {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .height(50.dp)
-                                .padding(bottom = 48.dp)
-                        ) {
-                            BottomNavBar(
-                                navController = navController,
-                                modifier = Modifier
-                                    .align(Alignment.BottomCenter)
-                                    .padding(16.dp)
-                            )
-                        }
+
+//                        if (isLoggedIn.value) {
+//                            val isHome = navController.currentDestination?.route == "home"
+//                            if (isHome) {
+//                                Box(
+//                                    modifier = Modifier
+//                                        .fillMaxSize()
+//                                        .height(50.dp)
+//                                        .padding(bottom = 48.dp)
+//                                ) {
+//                                    BottomNavBar(
+//                                        navController = navController,
+//                                        modifier = Modifier
+//                                            .align(Alignment.BottomCenter)
+//                                            .padding(16.dp)
+//                                    )
+//                                }
+//                            }
+//                        }
                     }
                 }
             }

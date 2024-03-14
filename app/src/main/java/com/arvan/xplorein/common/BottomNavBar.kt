@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun BottomNavBar(
@@ -58,22 +59,16 @@ fun BottomNavBar(
         mutableStateOf(0)
     }
 
-    val items = listOf(
-        BottomNavItem(
-            name = "Home",
-            route = "home",
-            icon = Icons.Default.Home
-        ),
-        BottomNavItem(
-            name = "Booking",
-            route = "booking",
-            icon = Icons.Default.Description
-        ),
-        BottomNavItem(
-            name = "Profile",
-            route = "profile",
-            icon = Icons.Default.Person
-        )
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+
+
+        val items = listOf(
+            BottomNavItem.Home,
+    BottomNavItem.Booking,
+    BottomNavItem.Profile
+
     )
 
     Box(
@@ -90,10 +85,18 @@ fun BottomNavBar(
         ) {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
-                    selected = selectedIndex == index,
+                    selected = currentRoute == item.route,
                     onClick = {
                         selectedIndex = index
-                        navController.navigate(item.route)
+                        navController.navigate(item.route){
+                            navController.graph.startDestinationRoute?.let { route ->
+                                popUpTo(route) {
+                                    saveState = true
+                                }
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     },
                     icon = {
                         Icon(imageVector = item.icon, contentDescription = item.name, tint = Color.Black)

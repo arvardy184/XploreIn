@@ -45,10 +45,11 @@ fun ProfileScreen(
     userData: UserData?,
     onSignOutClick: () -> Unit
 ){
+
     Column (modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally){
-        
+
         Row(modifier = Modifier.fillMaxWidth().padding(20.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -73,7 +74,7 @@ fun ProfileScreen(
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(imageVector = Icons.Default.Menu, contentDescription = "Delete", tint = Color.Black)
             }
-        }   
+        }
             if(userData?.profilePic != null){
               AsyncImage(model = userData.profilePic, contentDescription = "Profile picture",
                   modifier = Modifier
