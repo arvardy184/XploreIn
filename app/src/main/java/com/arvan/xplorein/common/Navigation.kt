@@ -12,6 +12,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.arvan.xplorein.ui.presentation.NotificationScreen
+import com.arvan.xplorein.ui.presentation.PaymentScreen
+import com.arvan.xplorein.ui.presentation.WisataScreen
 import com.arvan.xplorein.ui.presentation.booking.BookingScreen
 import com.arvan.xplorein.ui.presentation.home.HomeScreen
 import com.arvan.xplorein.ui.presentation.onboarding.OnboardingScreen
@@ -69,6 +71,15 @@ fun AppNavigation(navController: NavHostController,
             // TODO
             BookingScreen(navController = navController)
         }
+        
+        composable("wisata"){
+            WisataScreen(navController = navController)
+        }
+
+        composable("payment"){
+            PaymentScreen(navController = navController)
+        }
+
 
 
     }

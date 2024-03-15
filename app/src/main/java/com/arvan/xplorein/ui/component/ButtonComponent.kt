@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.theme.InterFontFamily
+import com.arvan.xplorein.ui.theme.gray
 import com.arvan.xplorein.ui.theme.green
 import com.arvan.xplorein.ui.theme.yellow
 
@@ -290,7 +291,7 @@ Icon(imageVector = icon, contentDescription = destinationRoute )
 }
 @Composable
 fun HomeButton(
-    icon: Int,
+    icon: ImageVector,
     text: String,
     onClick: () -> Unit,
     backgroundColor: Color = Color.Green,
@@ -314,7 +315,7 @@ fun HomeButton(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(icon),
+                imageVector = icon,
                 contentDescription = null,
                 tint = green,
                 modifier = Modifier.size(24.dp)
@@ -338,9 +339,10 @@ fun RoundedImageWithText(
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     imageModifier: Modifier = Modifier,
-    textModifier: Modifier = Modifier
+    textModifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
-    Box(modifier = modifier.padding(16.dp)) {
+    Box(modifier = modifier.padding(16.dp).clickable(onClick = onClick)) {
         Image(
             painter = painterResource(id = imageResId),
             contentDescription = contentDescription,
@@ -430,5 +432,26 @@ fun TabContent(text: String) {
         contentAlignment = Alignment.Center
     ) {
         Text(text = text)
+    }
+}
+
+@Composable
+fun SubmitButton(
+    isEnabled: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isEnabled) green else gray,
+            contentColor = Color.White
+        ),
+        enabled = isEnabled
+    ) {
+        Text(text = "Submit")
     }
 }

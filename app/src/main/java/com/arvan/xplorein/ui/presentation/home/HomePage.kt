@@ -1,5 +1,7 @@
 package com.arvan.xplorein.ui.presentation.home
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,16 +20,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAlarm
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Label
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Sms
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -35,6 +44,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,29 +57,44 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
+import com.arvan.xplorein.data.ViewModel.HomeViewModel
 import com.arvan.xplorein.ui.component.HomeButton
 import com.arvan.xplorein.ui.component.RoundedImageWithText
 import com.arvan.xplorein.ui.component.SearchField
 import com.arvan.xplorein.ui.presentation.onboarding.Dimensi
 import com.arvan.xplorein.ui.theme.XploreInTheme
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.tasks.await
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    modifier: Modifier = Modifier.fillMaxSize()
+    modifier: Modifier = Modifier.fillMaxSize(),
+    viewModel: HomeViewModel = viewModel()
 ) {
 XploreInTheme {
+    LaunchedEffect(Unit){
+        Log.d("TAG", "HomeScreen: ")
+    }
+    val touristDestinations = viewModel.touristDestinations.observeAsState(emptyList())
+    val isLoading = viewModel.isLoading.observeAsState(initial = true)
+
+//    Log.d("TAG", "Total tourist destinations: ${touristDestinations.size}${touristDestinations[0].name}),
 
     // Content
     Column(
         modifier = modifier
     ) {
+//        Log.d("TAG", "HomeScreen: ${touristDestinations.size} data ${touristDestinations[0].name}")
         Card(
             modifier = modifier
                 .fillMaxHeight(fraction = 0.3f),
@@ -83,7 +113,7 @@ XploreInTheme {
                     modifier = Modifier
                         .fillMaxSize()
                         ,
-                    painter = painterResource(id = R.drawable.onboarding1),
+                    painter = painterResource(id = R.drawable.home_walpaper),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
@@ -110,7 +140,9 @@ XploreInTheme {
                             Text(
                                 text = "Hai, Jane Cooper!",
                                 style = MaterialTheme.typography.labelMedium
-                                , color = Color.Black
+                                , color = Color.White
+                                , fontWeight = FontWeight.SemiBold,
+                                fontFamily = FontFamily.SansSerif
                             )
 
                             Spacer(modifier = Modifier.width(8.dp))
@@ -120,7 +152,7 @@ XploreInTheme {
                                           navController.navigate("notification")},
                                 modifier = Modifier.size(24.dp)
                             ) {
-                                Icon(imageVector = Icons.Default.Person, contentDescription = "Profile")
+                                Icon(imageVector = Icons.Default.Notifications, contentDescription = "Profile", tint = Color.Black)
                             }
                         }
 
@@ -146,32 +178,67 @@ XploreInTheme {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                HomeButton(icon = coil.base.R.drawable.abc_vector_test, text = "Wishlist", onClick = { /*TODO*/ })
+                HomeButton(icon = Icons.Default.Map, text = "Wishlist", onClick = { /*TODO*/
+                    navController.navigate("wisata")
+                })
             }
             item {
-                HomeButton(icon = coil.base.R.drawable.abc_vector_test, text = "Wishlist", onClick = { /*TODO*/ })
+                HomeButton(icon = Icons.Default.Sms, text = "Wishlist", onClick = {
+                    navController.navigate("payment")
+                })
             }
             item {
-                HomeButton(icon = coil.base.R.drawable.abc_vector_test, text = "Wishlist", onClick = { /*TODO*/ })
+                HomeButton(icon = Icons.Default.Restaurant, text = "Wishlist", onClick = { /*TODO*/ })
             }
             item {
-                HomeButton(icon = coil.base.R.drawable.abc_vector_test, text = "Wishlist", onClick = { /*TODO*/ })
+                HomeButton(icon = Icons.Default.Favorite, text = "Wishlist", onClick = { /*TODO*/ })
             }
         }
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2), // Create a grid with 2 columns
-            modifier = Modifier.padding(16.dp),
-            contentPadding = PaddingValues(16.dp) // Optional: spacing between items
-        ) {
-            items(20) {
-                RoundedImageWithText(
-                    text = "Bali",
-                    imageResId = R.drawable.kota1
-                )
+        if (!isLoading.value) { // Show LazyVerticalGrid only when data is loaded
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.padding(16.dp),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                itemsIndexed(touristDestinations.value) { index, destination ->
+                    Log.d("TAG", "Index: $index, Destination: $destination")
+                    RoundedImageWithText(
+                        text = destination.name,
+                        imageResId = // Use imageResId from Firebase
+//                        try {
+//                            Integer.parseInt(destination.imageResId)
+//                        } catch (e: NumberFormatException) {
+//                            R.drawable.placeholder_image // Placeholder if parsing fails
+//                        },
+                        R.drawable.kota1,
+                        onClick = {
+                            navController.navigate("wisata")
+                        }
+                    )
+                }
             }
 
+        } else {
+            // Show loading indicator while data is being fetched
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator() // Example loading indicator
+            }
         }
     }
 }
-}
+
+
+    }
+
+
+data class KotaModel(
+    val id: String,
+    val name: String,
+    // atau String jika Anda menyimpan URL gambar
+    // tambahkan properti lain yang diperlukan
+)
+
