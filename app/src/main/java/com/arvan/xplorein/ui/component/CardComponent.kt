@@ -285,7 +285,8 @@ fun TouristDestinationCard(
 //                    modifier = Modifier.size(40.dp),
                     contentPadding = PaddingValues(10.dp),
 
-                    onClick = { /* Tindakan saat tombol diklik */ },
+                    onClick = { /* Tindakan saat tombol diklik */
+                              onClick()},
                     colors = ButtonDefaults.buttonColors(containerColor = orange)
                 )
                 {

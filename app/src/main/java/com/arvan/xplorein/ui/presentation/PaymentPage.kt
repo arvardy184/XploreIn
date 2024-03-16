@@ -83,7 +83,7 @@ fun PaymentScreen(
         }
 //        Spacer(modifier = Modifier.fillMaxSize())
 
-                SubmitButton(isEnabled = selectedBankIndex.value != -1, onClick = { /*TODO*/ })
+                SubmitButton(isEnabled = selectedBankIndex.value != -1, onClick = { /*TODO*/ }, text = "Submit")
 
         }
 

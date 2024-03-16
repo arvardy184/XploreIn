@@ -2,26 +2,23 @@ package com.arvan.xplorein.common
 
 
 import android.content.Context
-import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.arvan.xplorein.ui.presentation.NotificationScreen
 import com.arvan.xplorein.ui.presentation.PaymentScreen
-import com.arvan.xplorein.ui.presentation.WisataScreen
+import com.arvan.xplorein.ui.presentation.wisata.WisataScreen
 import com.arvan.xplorein.ui.presentation.booking.BookingScreen
 import com.arvan.xplorein.ui.presentation.home.HomeScreen
 import com.arvan.xplorein.ui.presentation.onboarding.OnboardingScreen
 import com.arvan.xplorein.ui.presentation.profile.ProfileContent
-import com.arvan.xplorein.ui.presentation.profile.ProfileScreeen
 import com.arvan.xplorein.ui.presentation.sign_in.GoogleAuthUiClient
 import com.arvan.xplorein.ui.presentation.sign_in.SignInContent
 import com.arvan.xplorein.ui.presentation.sign_up.SignUpScreen
+import com.arvan.xplorein.ui.presentation.wisata.DetailWisataScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController,
@@ -78,6 +75,10 @@ fun AppNavigation(navController: NavHostController,
 
         composable("payment"){
             PaymentScreen(navController = navController)
+        }
+
+        composable("detail_wisata"){
+            DetailWisataScreen(navController = navController)
         }
 
 

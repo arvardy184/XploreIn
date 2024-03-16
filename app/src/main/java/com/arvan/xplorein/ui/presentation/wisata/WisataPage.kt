@@ -1,4 +1,4 @@
-package com.arvan.xplorein.ui.presentation
+package com.arvan.xplorein.ui.presentation.wisata
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -101,45 +101,7 @@ fun WisataScreen(
                         contentDescription = null,
                         contentScale = ContentScale.Crop
                     )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(20.dp)
-                            .padding(top = 20.dp),
-                        contentAlignment = Alignment.TopCenter
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                                Arrangement.SpaceBetween
-                            ) {
-                                Text(
-                                    text = "Hai, Jane Cooper!",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = Color.Black
-                                )
 
-                                Spacer(modifier = Modifier.width(8.dp))
-
-                                IconButton(
-                                    onClick = { /* Tampilkan menu profile */
-                                        navController.navigate("notification")
-                                    },
-                                    modifier = Modifier.size(24.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Person,
-                                        contentDescription = "Profile"
-                                    )
-                                }
-                            }
-                        }
-                    }
                 }
             }
 
@@ -156,7 +118,8 @@ fun WisataScreen(
                         touristDestination = touristDestinations[index],
                         isFavorite = touristDestinations[index].isFav,
                         onFavClick = { updateFavoriteStatus(index) }, // Callback untuk memperbarui status favorit
-                        onClick = { /*TODO*/ },
+                        onClick = { /*TODO*/
+                                  navController.navigate("detail_wisata")},
                         key = touristDestinations[index].name
                     )
                 }

@@ -290,8 +290,7 @@ Icon(imageVector = icon, contentDescription = destinationRoute )
     }
 }
 @Composable
-fun HomeButton(
-    icon: ImageVector,
+fun HomeButton(    icon: ImageVector,
     text: String,
     onClick: () -> Unit,
     backgroundColor: Color = Color.Green,
@@ -441,7 +440,8 @@ fun TabContent(text: String) {
 fun SubmitButton(
     isEnabled: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    text: String
 ) {
     Button(
         onClick = onClick,
@@ -454,6 +454,6 @@ fun SubmitButton(
         ),
         enabled = isEnabled
     ) {
-        Text(text = "Submit")
+        Text(text = text)
     }
 }
