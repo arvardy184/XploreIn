@@ -178,17 +178,17 @@ XploreInTheme {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                HomeButton(icon = Icons.Default.Map, text = "Wishlist", onClick = { /*TODO*/
+                HomeButton(icon = Icons.Default.Map, text = "Tour Guide", onClick = { /*TODO*/
                     navController.navigate("wisata")
                 })
             }
             item {
-                HomeButton(icon = Icons.Default.Sms, text = "Wishlist", onClick = {
+                HomeButton(icon = Icons.Default.Sms, text = "Partner", onClick = {
                     navController.navigate("payment")
                 })
             }
             item {
-                HomeButton(icon = Icons.Default.Restaurant, text = "Wishlist", onClick = { /*TODO*/ })
+                HomeButton(icon = Icons.Default.Restaurant, text = "Food", onClick = { /*TODO*/ })
             }
             item {
                 HomeButton(icon = Icons.Default.Favorite, text = "Wishlist", onClick = { /*TODO*/ })
@@ -198,7 +198,7 @@ XploreInTheme {
         if (!isLoading.value) { // Show LazyVerticalGrid only when data is loaded
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(14.dp),
                 contentPadding = PaddingValues(16.dp)
             ) {
                 itemsIndexed(touristDestinations.value) { index, destination ->

@@ -300,7 +300,9 @@ fun HomeButton(
     Column(
         modifier = Modifier
             .clickable(onClick = onClick)
-            .padding(16.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Box(
             modifier = Modifier
@@ -323,11 +325,11 @@ fun HomeButton(
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-
             text = text,
             color = Color.Black,
             textAlign = TextAlign.Center,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -342,12 +344,12 @@ fun RoundedImageWithText(
     textModifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Box(modifier = modifier.padding(16.dp).clickable(onClick = onClick)) {
+    Box(modifier = modifier.padding(10.dp).clickable(onClick = onClick)) {
         Image(
             painter = painterResource(id = imageResId),
             contentDescription = contentDescription,
             modifier = Modifier
-//                .shadow(elevation = 4.dp, spotColor = Color(0x40000000), ambientColor = Color(0x40000000))
+//                .shadow(elevation = 4.dp, shape = RoundedCornerShape(10.dp))
                 .width(160.dp)
                 .height(160.dp)
                 .fillMaxSize()
@@ -359,7 +361,7 @@ fun RoundedImageWithText(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(20.dp)
-                .padding(vertical = 10.dp)
+                .padding(vertical = 14.dp)
                 .then(textModifier),
             color = Color.White,
             textAlign = TextAlign.Center

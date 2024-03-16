@@ -98,7 +98,7 @@ fun NotificationScreen(navController: NavController) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor  = Color.Green)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor  = green)
             )
         }, bottomBar = {}
     ) { innerPadding ->
