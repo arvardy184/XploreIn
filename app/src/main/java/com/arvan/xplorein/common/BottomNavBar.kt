@@ -73,7 +73,7 @@ fun BottomNavBar(
 
     Box(
         modifier = modifier
-            .height(80.dp) // Sesuaikan tinggi sesuai kebutuhan
+            .height(80.dp)
             .clip(CircleShape)
             .background(Color.White)
             .padding(horizontal = 16.dp)

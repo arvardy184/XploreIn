@@ -86,7 +86,7 @@ fun MyTextField(
                 fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                 fontWeight = FontWeight.SemiBold,
             ),
-            //style = MaterialTheme.typography.body1,
+     
             modifier = Modifier
                 .padding(bottom = 4.dp)
                 .fillMaxWidth(),
@@ -109,7 +109,6 @@ fun MyTextField(
                         Icons.Filled.VisibilityOff
                     }
 
-//                    val icon = if (passwordVisibility.value) Icons.Filled. else Icons.Filled.VisibilityOff
                     IconButton(onClick = { passwordVisibility.value = !passwordVisibility.value }) {
                         Icon(icon, contentDescription = "Toggle password visibility")
                     }
@@ -125,98 +124,7 @@ fun MyTextField(
         )
     }
 }
-//
-//@Composable
-//fun SearchBar(
-//    hint: String,
-//    modifier: Modifier = Modifier,
-//    isEnabled: (Boolean) = true,
-//    height: Dp = 40.dp,
-//    elevation: Dp = 0.dp,
-//    cornerShape: Shape
-//    backgroundColor: Color = Color.White,
-//    onSearchClicked: () -> Unit = {},
-//    onTextChange: (String) -> Unit = {},
-//) {
-//    var text by remember { mutableStateOf(TextFieldValue()) }
-//    Row(
-//        modifier = Modifier
-//            .height(height)
-//            .fillMaxWidth()
-//            .shadow(elevation = elevation, shape = cornerShape)
-//            .background(color = backgroundColor, shape = cornerShape)
-//            .clickable { onSearchClicked() },
-//        verticalAlignment = Alignment.CenterVertically,
-//    ) {
-//        BasicTextField(
-//            modifier = modifier
-//                .weight(5f)
-//                .fillMaxWidth()
-//                .padding(horizontal = Dimens.dp24),
-//            value = text,
-//            onValueChange = {
-//                text = it
-//                onTextChange(it.text)
-//            },
-//            enabled = isEnabled,
-//            textStyle = TextStyle(
-//                color = MaterialTheme.colorScheme.primary,
-//                fontSize = Dimens.sp16,
-//                fontWeight = FontWeight.Bold
-//            ),
-//            decorationBox = { innerTextField ->
-//                if (text.text.isEmpty()) {
-//                    Text(
-//                        text = hint,
-//                        color = Color.Gray.copy(alpha = 0.5f),
-//                        fontSize = Dimens.sp16,
-//                        fontWeight = FontWeight.Bold,
-//                    )
-//                }
-//                innerTextField()
-//            },
-//            keyboardOptions = KeyboardOptions(
-//                keyboardType = KeyboardType.Text,
-//                imeAction = ImeAction.Search
-//            ),
-//            keyboardActions = KeyboardActions(onSearch = { onSearchClicked() }),
-//            singleLine = true
-//        )
-//        Box(
-//            modifier = modifier
-//                .weight(1f)
-//                .size(Dimens.dp40)
-//                .background(color = Color.Transparent, shape = CircleShape)
-//                .clickable {
-//                    if (text.text.isNotEmpty()) {
-//                        text = TextFieldValue(text = "")
-//                        onTextChange("")
-//                    }
-//                },
-//        ) {
-//            if (text.text.isNotEmpty()) {
-//                Icon(
-//                    modifier = modifier
-//                        .fillMaxSize()
-//                        .padding(Dimens.dp10),
-//                    painter = painterResource(id = R.drawable.baseline_clear_24),
-//                    contentDescription = stringResource(R.string.search),
-//                    tint = MaterialTheme.colorScheme.primary,
-//                )
-//            } else {
-//                Icon(
-//                    modifier = modifier
-//                        .fillMaxSize()
-//                        .padding(Dimens.dp10),
-//                    painter = painterResource(id = R.drawable.ic_search),
-//                    contentDescription = stringResource(R.string.search),
-//                    tint = MaterialTheme.colorScheme.primary,
-//                )
-//            }
-//        }
-//    }
 
-// Search Bar
 @Composable
 fun SearchField(
     modifier: Modifier = Modifier,
@@ -225,41 +133,41 @@ fun SearchField(
     placeholder: String = "Search places, foods, guide, partners, etc",
     backgroundColor: Color = Color.White,
     contentColor: Color = LocalContentColor.current,
-    onSearchClick: () -> Unit = {} // Optional callback for explicit search action
+    onSearchClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp) // Consistent height for a standard search field
-            .background(Color.White, shape = RoundedCornerShape(8.dp)) // Rounded corners for a modern look
+            .height(56.dp) 
+            .background(Color.White, shape = RoundedCornerShape(8.dp)) 
             .padding(horizontal = 16.dp),
         contentAlignment = Alignment.CenterStart
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().background(Color.White),
-            horizontalArrangement = Arrangement.SpaceBetween // Distribute evenly
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
-                onClick = onSearchClick, // Handle search action if provided
+                onClick = onSearchClick,
                 modifier = Modifier.size(24.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Search",
-                    tint = contentColor // Use content color for consistency
+                    tint = contentColor 
                 )
             }
             TextField(
                 value = value,
                 onValueChange = onValueChange,
-                placeholder = { Text(placeholder, color =Color.White) }, // Use content color for consistency
+                placeholder = { Text(placeholder, color =Color.White) }, 
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(end = 16.dp).background(Color.White), // Padding for spacing from trailing icon
-                textStyle = MaterialTheme.typography.labelMedium, // Consistent style
+                    .padding(end = 16.dp).background(Color.White), 
+                textStyle = MaterialTheme.typography.labelMedium, 
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Search // Suggest search action on keyboard
+                    imeAction = ImeAction.Search 
                 ),
                 keyboardActions = KeyboardActions(onSearch = { onSearchClick() }),
             )

@@ -1,5 +1,6 @@
 package com.arvan.xplorein.ui.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,11 +15,13 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
@@ -157,7 +160,6 @@ fun NotificationItem(
         modifier = modifier
             .fillMaxWidth()
 
-//            .size(height = 100.dp, width = 300.dp)
             .size(100.dp)
             .clickable {
                 isSelected.value = true
@@ -216,7 +218,7 @@ fun TouristDestinationCard(
 ) {
     Card(
         modifier = modifier
-            .padding(horizontal = 10.dp, vertical = 4.dp) // Adjust padding for the card
+            .padding(horizontal = 10.dp, vertical = 4.dp) 
             ,
         elevation = cardElevation(
             defaultElevation = 8.dp
@@ -224,7 +226,7 @@ fun TouristDestinationCard(
 
     ) {
         Column(
-            modifier = Modifier.clickable(onClick = onClick) // Make entire card clickable
+            modifier = Modifier.clickable(onClick = onClick)
         ) {
             Box(modifier = Modifier.aspectRatio(1.5f)) {
                 Image(
@@ -235,7 +237,7 @@ fun TouristDestinationCard(
                     contentDescription = touristDestination.name
                 )
 
-                // Icon Favorite di sudut kanan atas
+             
                 IconButton(
                     onClick = onFavClick,
                     modifier = Modifier
@@ -250,42 +252,40 @@ fun TouristDestinationCard(
                 }
             }
 
-            Spacer(modifier = Modifier.height(8.dp)) // Add spacing between image and content
+            Spacer(modifier = Modifier.height(8.dp)) 
 
             Text(
                 text = touristDestination.name,
                 style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(horizontal = 8.dp) // Align text to center
+                modifier = Modifier.padding(horizontal = 8.dp)
             )
-            Row( // Rating row with stars
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp) // Adjust padding for the stars
+            Row( 
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp) 
             ) {
                 repeat(touristDestination.rating) {
                     Icon(
                         imageVector = Icons.Default.Star,
                         tint = orange,
                         contentDescription = "Star",
-                        modifier = Modifier.size(16.dp) // Adjust size of the stars
+                        modifier = Modifier.size(16.dp) 
                     )
                 }
             }
             Row(
                 modifier = Modifier
-                    , // Adjust padding for the content
+                    , 
                 horizontalArrangement = Arrangement.SpaceBetween,
 
-            // Align children with equal space between them
             ) {
                 Text(
                     text = "Rp ${touristDestination.price}",
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(start = 8.dp) // Adjust padding for the text
+                    modifier = Modifier.padding(start = 8.dp)
                 )
                 Button(
-//                    modifier = Modifier.size(40.dp),
                     contentPadding = PaddingValues(10.dp),
 
-                    onClick = { /* Tindakan saat tombol diklik */
+                    onClick = { 
                               onClick()},
                     colors = ButtonDefaults.buttonColors(containerColor = orange)
                 )
@@ -296,6 +296,104 @@ fun TouristDestinationCard(
         }
     }
 }
+
+@Composable
+fun PaymentSuccessCard(
+    modifier: Modifier = Modifier,
+    title: String,
+    amount: String,
+    paymentDate: String,
+) {
+    val checkIconColor = Color(0xFF2ECC40)
+    val borderColor = Color(0xFFD9D9D9)
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+        , // Menyesuaikan tinggi sesuai kebutuhan
+        contentAlignment = Alignment.Center
+    ) {
+        Card(
+            modifier = Modifier,
+            shape = RoundedCornerShape(8.dp),
+            border = BorderStroke(width = 1.dp, color = borderColor)
+        ) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Column(
+                modifier = Modifier.padding(20.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = title,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Divider(color = borderColor, thickness = 1.dp)
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Jumlah:",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                    Text(
+                        text = amount,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Tanggal Pembayaran:",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                    Text(
+                        text = paymentDate,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
+                }
+            }
+        }
+        Icon(
+            imageVector = Icons.Default.CheckCircle,
+            contentDescription = "Check Icon",
+            tint = checkIconColor,
+            modifier = Modifier
+                .size(48.dp)
+                .align(Alignment.TopCenter)
+                .offset(0.dp, -20.dp)
+        )
+    }
+
+
+}
+
 
 
 data class TouristDestination(

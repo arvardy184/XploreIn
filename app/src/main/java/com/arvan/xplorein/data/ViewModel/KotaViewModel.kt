@@ -45,7 +45,7 @@ class HomeViewModel : ViewModel() {
                     } else {
                         Log.e(TAG, "Error getting tourist destinations: ", task.exception)
                     }
-                    _isLoading.value = false // Set loading to false only on success/failure
+                    _isLoading.value = false 
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error getting tourist destinations: ", e)

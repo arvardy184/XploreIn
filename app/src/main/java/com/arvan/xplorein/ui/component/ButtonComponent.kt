@@ -155,7 +155,7 @@ fun OnboardingButton(
         modifier = modifier
             .height(56.dp)
             .padding(horizontal = 5.dp)
-            .fillMaxWidth(), // Memastikan tombol memenuhi lebar maksimum
+            .fillMaxWidth(), 
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             contentColor = contentColor
@@ -250,7 +250,7 @@ fun SocialMediaRow(onFacebookClick: () -> Unit, onGoogleClick: () -> Unit) {
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        // Fb Icon
+      
         Image(
             painter = painterResource(id = R.drawable.fb),
             contentDescription = null,
@@ -259,7 +259,7 @@ fun SocialMediaRow(onFacebookClick: () -> Unit, onGoogleClick: () -> Unit) {
                 .clickable { onFacebookClick() }
         )
 
-        // Google Icon
+
         Image(
             painter = painterResource(id = R.drawable.google),
             contentDescription = null,
@@ -283,8 +283,6 @@ fun FloatingButtonWithNavigation(
         modifier = Modifier
             .padding(16.dp)
 
-     // Menempatkan tombol di pojok kanan
-    // bawah
     ) {
 Icon(imageVector = icon, contentDescription = destinationRoute )
     }
@@ -348,7 +346,6 @@ fun RoundedImageWithText(
             painter = painterResource(id = imageResId),
             contentDescription = contentDescription,
             modifier = Modifier
-//                .shadow(elevation = 4.dp, shape = RoundedCornerShape(10.dp))
                 .width(160.dp)
                 .height(160.dp)
                 .fillMaxSize()
@@ -387,13 +384,13 @@ fun ProfileButton(
             .height(height)
             .fillMaxWidth()
 
-//            .background(backgroundColor)
+
 
             .shadow(
                 ambientColor = green,
                 elevation = 10.dp,
                 spotColor = green,
-//                clip = true,
+
             )
 
            ,
@@ -401,8 +398,7 @@ fun ProfileButton(
             containerColor = backgroundColor,
             contentColor = contentColor
         )
-//        contentPadding = PaddingValues(all = 0.dp),
-//        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor, contentColor = contentColor)
+
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -410,7 +406,6 @@ fun ProfileButton(
             horizontalArrangement = Arrangement.Start,
 
         ) {
-//
             Icon(imageVector = icon, contentDescription = text, tint = green, modifier = Modifier.size(24.dp))
 
             Spacer(modifier = Modifier.width(40.dp))

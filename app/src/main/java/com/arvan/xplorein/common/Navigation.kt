@@ -3,6 +3,10 @@ package com.arvan.xplorein.common
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavHostController
@@ -14,6 +18,8 @@ import com.arvan.xplorein.ui.presentation.wisata.WisataScreen
 import com.arvan.xplorein.ui.presentation.booking.BookingScreen
 import com.arvan.xplorein.ui.presentation.home.HomeScreen
 import com.arvan.xplorein.ui.presentation.onboarding.OnboardingScreen
+import com.arvan.xplorein.ui.presentation.payment.DetailBookingCard
+import com.arvan.xplorein.ui.presentation.payment.PaymentSuccessScreen
 import com.arvan.xplorein.ui.presentation.profile.ProfileContent
 import com.arvan.xplorein.ui.presentation.sign_in.GoogleAuthUiClient
 import com.arvan.xplorein.ui.presentation.sign_in.SignInContent
@@ -24,10 +30,17 @@ import com.arvan.xplorein.ui.presentation.wisata.DetailWisataScreen
 fun AppNavigation(navController: NavHostController,
                   lifecycleScope: LifecycleCoroutineScope,
                   googleAuthUiClient: GoogleAuthUiClient,
-                  applicationContext: Context) {
-    NavHost(navController = navController, startDestination = "home") {
+                  applicationContext: Context,
+                  isBottomBar: MutableState<Boolean>) {
 
+    NavHost(navController = navController, startDestination = "payment_success") {
+
+        composable("payment_success"){
+            isBottomBar.value = false
+            PaymentSuccessScreen(navController = navController)
+        }
         composable("notification"){
+            isBottomBar.value = false
             NotificationScreen(navController = navController)
         }
 
@@ -45,7 +58,7 @@ fun AppNavigation(navController: NavHostController,
 
 
         composable(BottomNavItem.Profile.route) {
-
+            isBottomBar.value = true
             ProfileContent(navController = navController,lifecycleScope = lifecycleScope,googleAuthUiClient = googleAuthUiClient,applicationContext = applicationContext)
         }
 
@@ -61,15 +74,18 @@ fun AppNavigation(navController: NavHostController,
         }
 
         composable(BottomNavItem.Home.route) {
+            isBottomBar.value = true // Tampilkan bottom bar di layar home
             HomeScreen(navController = navController, modifier = Modifier)
         }
 
         composable (BottomNavItem.Booking.route){
             // TODO
+            isBottomBar.value = true
             BookingScreen(navController = navController)
         }
         
         composable("wisata"){
+            isBottomBar.value = false
             WisataScreen(navController = navController)
         }
 
@@ -78,10 +94,14 @@ fun AppNavigation(navController: NavHostController,
         }
 
         composable("detail_wisata"){
+            isBottomBar.value = false
             DetailWisataScreen(navController = navController)
         }
-
-
+        
+        composable("detail_booking"){
+            DetailBookingCard(navController = navController)
+        }
 
     }
+
 }

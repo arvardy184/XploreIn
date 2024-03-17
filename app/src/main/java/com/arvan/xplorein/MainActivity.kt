@@ -2,11 +2,13 @@ package com.arvan.xplorein
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.IntentSenderRequest
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.arvan.xplorein.common.AppNavigation
 import com.arvan.xplorein.common.BottomNavBar
@@ -57,35 +60,43 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             XploreInTheme {
-
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
                     val isLoggedIn = remember { mutableStateOf(false) }
-
-                    // Observe login status
+                    val isBottomBar = remember { mutableStateOf(true) }
+                    val bottomBarHeight by animateDpAsState(targetValue = if (isBottomBar.value) 56.dp else 0.dp)
+                    
                     LaunchedEffect(Unit) {
                         isLoggedIn.value = googleAuthUiClient.getSignedInUser() != null
                     }
-                    // Scaffold content goes here
+
+
+
+                    Log.d("TEST", "onCreate data: ${navController.currentDestination?.route}")
+
+
                     Scaffold(
-                        bottomBar = {
-                            BottomNavBar(
-                                navController = navController,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                            )
+                        bottomBar =
+                        {
+                            if(isBottomBar.value){
+                                BottomNavBar(
+                                    navController = navController,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                                )
+                            }
                         },
                     ) {
                         AppNavigation(
                             navController = navController,
                             lifecycleScope = lifecycleScope,
                             googleAuthUiClient = googleAuthUiClient,
-                            applicationContext = applicationContext
+                            applicationContext = applicationContext,
+                            isBottomBar = isBottomBar
                         )
 
                     }

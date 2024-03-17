@@ -61,24 +61,24 @@ fun BookingScreen(navController: NavController) {
         )
 
     },
-      ) { innerPadding -> // Use padding from the Scaffold
+      ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding) // Apply Scaffold's padding
+                .padding(innerPadding)
         ) {
             val pagerState = rememberPagerState(pageCount = {2})
             val tabTitles = listOf("Places", "Guides")
             val coroutineScope = rememberCoroutineScope()
 
-            // Add height to TabRow
+
             TabRow(
                 selectedTabIndex = pagerState.currentPage,
                 containerColor = Color.White,
                 contentColor = Color.Black,
                 divider = ({  }),
                 indicator = { tabPositions ->
-                    val tabWidth = (tabPositions[pagerState.currentPage].right - tabPositions[pagerState.currentPage].left) / 1f // Adjust calculation as needed
+                    val tabWidth = (tabPositions[pagerState.currentPage].right - tabPositions[pagerState.currentPage].left) / 1f
                     TabRowDefaults.Indicator(
                         modifier = Modifier
                             .tabIndicatorOffset(tabPositions[pagerState.currentPage])
@@ -88,7 +88,7 @@ fun BookingScreen(navController: NavController) {
                         color = orange
                     )
                 },
-                modifier = Modifier.height(48.dp) // Add height to the TabRow
+                modifier = Modifier.height(48.dp)
             ) {
                 tabTitles.forEachIndexed { index, title ->
                     Tab(
@@ -101,7 +101,7 @@ fun BookingScreen(navController: NavController) {
 
             HorizontalPager(
                 state = pagerState,
-               // Allow pager to occupy remaining space
+
             ) { page ->
                 when (page) {
                     0 -> PlacesPage()

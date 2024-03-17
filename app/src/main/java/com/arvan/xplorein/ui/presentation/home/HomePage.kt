@@ -82,19 +82,14 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
 XploreInTheme {
-    LaunchedEffect(Unit){
-        Log.d("TAG", "HomeScreen: ")
-    }
+
     val touristDestinations = viewModel.touristDestinations.observeAsState(emptyList())
     val isLoading = viewModel.isLoading.observeAsState(initial = true)
 
-//    Log.d("TAG", "Total tourist destinations: ${touristDestinations.size}${touristDestinations[0].name}),
-
-    // Content
     Column(
         modifier = modifier
     ) {
-//        Log.d("TAG", "HomeScreen: ${touristDestinations.size} data ${touristDestinations[0].name}")
+
         Card(
             modifier = modifier
                 .fillMaxHeight(fraction = 0.3f),
@@ -108,7 +103,7 @@ XploreInTheme {
 
                 contentAlignment = Alignment.BottomCenter
             ) {
-                // Gambar dengan konten scale Crop
+
                 Image(
                     modifier = Modifier
                         .fillMaxSize()
@@ -117,7 +112,7 @@ XploreInTheme {
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
-                // Wadah untuk teks dan lingkaran (circle shape)
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -148,7 +143,7 @@ XploreInTheme {
                             Spacer(modifier = Modifier.width(8.dp))
 
                             IconButton(
-                                onClick = { /* Tampilkan menu profile */
+                                onClick = {
                                           navController.navigate("notification")},
                                 modifier = Modifier.size(24.dp)
                             ) {
@@ -163,14 +158,7 @@ XploreInTheme {
 
 
                 }
-//                SearchField(
-//                    modifier = Modifier,
-//                    onValueChange = {},
-//                    placeholder = "Search",
-//                    value = "",
-//                    onSearchClick = {}
-//
-//                )
+
             }
         }
         LazyRow(
@@ -179,7 +167,7 @@ XploreInTheme {
         ) {
             item {
                 HomeButton(icon = Icons.Default.Map, text = "Tour Guide", onClick = { /*TODO*/
-                    navController.navigate("wisata")
+
                 })
             }
             item {
@@ -195,7 +183,7 @@ XploreInTheme {
             }
         }
 
-        if (!isLoading.value) { // Show LazyVerticalGrid only when data is loaded
+        if (!isLoading.value) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier.padding(14.dp),
@@ -205,12 +193,7 @@ XploreInTheme {
                     Log.d("TAG", "Index: $index, Destination: $destination")
                     RoundedImageWithText(
                         text = destination.name,
-                        imageResId = // Use imageResId from Firebase
-//                        try {
-//                            Integer.parseInt(destination.imageResId)
-//                        } catch (e: NumberFormatException) {
-//                            R.drawable.placeholder_image // Placeholder if parsing fails
-//                        },
+                        imageResId =
                         R.drawable.kota1,
                         onClick = {
                             navController.navigate("wisata")
@@ -220,12 +203,12 @@ XploreInTheme {
             }
 
         } else {
-            // Show loading indicator while data is being fetched
+
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator() // Example loading indicator
+                CircularProgressIndicator()
             }
         }
     }
@@ -238,7 +221,6 @@ XploreInTheme {
 data class KotaModel(
     val id: String,
     val name: String,
-    // atau String jika Anda menyimpan URL gambar
-    // tambahkan properti lain yang diperlukan
+
 )
 

@@ -4,14 +4,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-//
-//data class BottomNavItem(
-//
-//    val name: String,
-//    val route: String,
-//    val icon: ImageVector
-//)
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+
+
 
 sealed class BottomNavItem(
 
@@ -37,3 +35,4 @@ sealed class BottomNavItem(
         icon = Icons.Default.Person
     )
 }
+

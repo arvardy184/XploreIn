@@ -1,6 +1,7 @@
 package com.arvan.xplorein.ui.presentation.wisata
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +18,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -47,21 +50,21 @@ fun WisataScreen(
     navController: NavController,
     modifier: Modifier = Modifier.fillMaxSize()
 ) {
-    val touristDestinations = remember { // Gunakan remember untuk mempertahankan data selama komposisi
+    val touristDestinations = remember {
         mutableListOf(
             TouristDestination(
                 name = "Pantai Kuta",
                 imageResId = R.drawable.kota1,
                 rating = 4,
                 price = "200.000",
-                isFav = false // Atur status favorit awal
+                isFav = false
             ),
             TouristDestination(
                 name = "Ubud Monkey Forest",
                 imageResId = R.drawable.kota1,
                 rating = 5,
                 price = "150.000",
-                isFav = true // Atur status favorit awal
+                isFav = true
             ),
             TouristDestination(
                 name = "Pantai Kuta",
@@ -101,6 +104,46 @@ fun WisataScreen(
                         contentDescription = null,
                         contentScale = ContentScale.Crop
                     )
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(20.dp)
+                            .padding(top = 20.dp,),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        // Teks
+                        Column(
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    //spaceBetween
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                Arrangement.Start
+                            ) {
+                                IconButton(
+                                    onClick = { navController.popBackStack() },
+                                    modifier = Modifier.size(24.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Back",
+                                        tint = Color.Black,
+
+                                    )
+                                }
+                            }
+
+                        }
+
+                        // Spacer buat jaraknya
+                        Spacer(modifier = Modifier.height(200.dp))
+
+
+                    }
 
                 }
             }

@@ -18,10 +18,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -35,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -52,18 +57,18 @@ fun DetailWisataScreen(navController: NavController) {
     val year = remember { mutableStateOf("") }
     val isChecked = remember { mutableStateOf(false) }
     XploreInTheme {
-        // Content
+
         Column(
             modifier = Modifier
         ) {
-            // Card dengan gambar
+
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(250.dp),
                 shape = RoundedCornerShape(16.dp),
             ) {
-                // Isi dalam Card
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -76,12 +81,49 @@ fun DetailWisataScreen(navController: NavController) {
                         contentDescription = null,
                         contentScale = ContentScale.Crop
                     )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(20.dp)
+                            .padding(top = 20.dp,),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        // Teks
+                        Column(
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    //spaceBetween
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                Arrangement.Start
+                            ) {
+                                IconButton(
+                                    onClick = { navController.popBackStack() },
+                                    modifier = Modifier.size(24.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Back"
+                                    )
+                                }
+                            }
+
+                        }
+
+
+                        Spacer(modifier = Modifier.height(200.dp))
+
+
+                    }
 
                 }
             }
             Column(
                 modifier = Modifier
-//                    .fillMaxSize()
+
                     .fillMaxWidth()
 
 
@@ -94,7 +136,7 @@ fun DetailWisataScreen(navController: NavController) {
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold
                 )
-                Row( // Rating row with stars
+                Row(
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp) // Adjust padding for the stars
                 ) {
                     repeat(5) {
@@ -130,7 +172,7 @@ fun DetailWisataScreen(navController: NavController) {
                     modifier = Modifier.padding( horizontal = 16.dp)
                 )
 
-                // Harga
+
                 Text(
                     text = "Rp. 100.000 / Person",
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -152,7 +194,7 @@ fun DetailWisataScreen(navController: NavController) {
                     ,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // Tanggal
+
                     OutlinedTextField(
                         label = { Text("dd") },
                         value = date.value,
@@ -172,7 +214,7 @@ fun DetailWisataScreen(navController: NavController) {
                         Text("/", fontSize = 20.sp, color = Color.Black)
                     }
 
-                    // Bulan
+
                     OutlinedTextField(
                         label = { Text("mm") },
                         value = month.value,
@@ -192,7 +234,7 @@ fun DetailWisataScreen(navController: NavController) {
                         Text("/", fontSize = 20.sp, color = Color.Black)
                     }
 
-                    // Tahun
+
                     OutlinedTextField(
                         label = { Text("yyyy") },
                         value = year.value,
@@ -211,7 +253,7 @@ fun DetailWisataScreen(navController: NavController) {
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding( horizontal = 16.dp)
                 )
-                //checkbok yes no
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -229,8 +271,8 @@ fun DetailWisataScreen(navController: NavController) {
                     )
                     Text(text = "No")
                 }
-                //button submit
-                SubmitButton(isEnabled = isChecked.value && date.value.isNotEmpty() && month.value.isNotEmpty() && year.value.isNotEmpty(), onClick = { /*TODO*/ }, text = "Book")
+
+                SubmitButton(isEnabled = isChecked.value && date.value.isNotEmpty() && month.value.isNotEmpty() && year.value.isNotEmpty(), onClick = { navController.navigate("payment") }, text = "Book")
 
 
             }

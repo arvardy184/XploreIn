@@ -38,7 +38,6 @@ fun PaymentOption(
             .height(80.dp)
             .clip(RoundedCornerShape(8.dp))
             .border(
-//                if (isSelected) (2.dp Color.Green) else (1.dp, Color.Gray),
                 width = if(isSelected)  2.dp else 1.dp,
                 color = if (isSelected) green else gray,
                 shape = RoundedCornerShape(8.dp)
