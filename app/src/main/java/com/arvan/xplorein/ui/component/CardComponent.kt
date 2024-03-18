@@ -115,12 +115,12 @@ fun ElevatedCardExample( date: String,
         modifier = Modifier
             .size(width = 550.dp, height = 170.dp)
             .fillMaxWidth()
-        , colors = CardDefaults.elevatedCardColors(containerColor = yellow)
+        , colors = CardDefaults.elevatedCardColors(containerColor = white)
 
     ) {
         Column(
             modifier = Modifier
-                .background(yellow, RoundedCornerShape(16.dp))
+                .background(white, RoundedCornerShape(16.dp))
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
@@ -133,7 +133,7 @@ fun ElevatedCardExample( date: String,
                 text = date,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-            Divider(color = orange, thickness = 2.dp, modifier = Modifier.padding(vertical = 8.dp))
+            Divider(color = green, thickness = 2.dp, modifier = Modifier.padding(vertical = 8.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -145,7 +145,7 @@ fun ElevatedCardExample( date: String,
                 )
                 Button(
                     onClick = { onSeeDetailsClick() },
-                    colors = ButtonDefaults.buttonColors(containerColor = orange)
+                    colors = ButtonDefaults.buttonColors(containerColor = green)
                 ) {
 
                     Text(text = "See Details")

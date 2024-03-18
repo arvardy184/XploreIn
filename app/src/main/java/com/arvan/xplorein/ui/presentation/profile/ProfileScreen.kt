@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.component.ProfileButton
@@ -51,7 +52,8 @@ import com.arvan.xplorein.ui.theme.yellow
 @Composable
 fun ProfileScreen(
     userData: UserData?,
-    onSignOutClick: () -> Unit
+    onSignOutClick: () -> Unit,
+    navController: NavController
 ){
 
     Column (modifier = Modifier.fillMaxSize(),
@@ -61,7 +63,7 @@ fun ProfileScreen(
         Row(modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
 
             ){
@@ -81,9 +83,9 @@ fun ProfileScreen(
                 textAlign = TextAlign.Center
 
             )
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Menu, contentDescription = "Delete", tint = Color.Black)
-            }
+//            IconButton(onClick = { /*TODO*/ }) {
+//                Icon(imageVector = Icons.Default.Menu, contentDescription = "Delete", tint = Color.Black)
+//            }
         }
             if(userData?.profilePic != null){
               AsyncImage(model = userData.profilePic, contentDescription = "Profile picture",
@@ -116,7 +118,7 @@ fun ProfileScreen(
         }
         ProfileButton(icon = Icons.Filled.Person, text = "View and Edit Profile", onClick = { /*TODO*/ })
         ProfileButton(icon = Icons.Filled.ConfirmationNumber, text = "Bookings", onClick = { /*TODO*/ })
-        ProfileButton(icon = Icons.Filled.Favorite, text = "Wishlist", onClick = { /*TODO*/ })
+        ProfileButton(icon = Icons.Filled.Favorite, text = "Wishlist", onClick = { navController.navigate("wishlist")})
         ProfileButton(icon = Icons.AutoMirrored.Filled.Help, text = "Help and Center", onClick = { /*TODO*/ })
         ProfileButton(icon = Icons.Default.Settings, text = "Setting", onClick = { /*TODO*/ })
 

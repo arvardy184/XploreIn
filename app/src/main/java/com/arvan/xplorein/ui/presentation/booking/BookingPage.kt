@@ -40,8 +40,7 @@ import androidx.navigation.NavController
 import com.arvan.xplorein.common.BottomNavBar
 import com.arvan.xplorein.ui.component.ElevatedCardExample
 import com.arvan.xplorein.ui.theme.booking
-import com.arvan.xplorein.ui.theme.orange
-import com.arvan.xplorein.ui.theme.yellow
+import com.arvan.xplorein.ui.theme.green
 import kotlinx.coroutines.launch
 
 
@@ -57,7 +56,7 @@ fun BookingScreen(navController: NavController) {
                     textAlign = TextAlign.Center
                 )
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = booking)
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = green)
         )
 
     },
@@ -85,7 +84,7 @@ fun BookingScreen(navController: NavController) {
                             .padding(horizontal = 48.dp)
                             .clip(CircleShape),
                         height = 10.dp,
-                        color = orange
+                        color = green
                     )
                 },
                 modifier = Modifier.height(48.dp)

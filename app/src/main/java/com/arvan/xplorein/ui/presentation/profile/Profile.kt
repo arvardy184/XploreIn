@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileContent(navController: NavController, lifecycleScope: LifecycleCoroutineScope,
-                   googleAuthUiClient: GoogleAuthUiClient, applicationContext: Context) {ProfileScreen(
+                   googleAuthUiClient: GoogleAuthUiClient, applicationContext: Context) {ProfileScreen(navController = navController,
     userData = googleAuthUiClient.getSignedInUser(),
     onSignOutClick = {
         lifecycleScope.launch {
