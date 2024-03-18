@@ -20,10 +20,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
@@ -53,6 +57,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arvan.xplorein.R
+import com.arvan.xplorein.ui.theme.green
 import com.arvan.xplorein.ui.theme.grey
 import com.arvan.xplorein.ui.theme.orange
 import com.arvan.xplorein.ui.theme.white
@@ -217,7 +222,6 @@ fun TouristDestinationCard(
     isFavorite: Boolean,
     onFavClick: () -> Unit,
     onClick: () -> Unit,
-    key: Any
 ) {
     Card(
         modifier = modifier
@@ -370,9 +374,7 @@ fun PaymentSuccessCard(
                         color = Color.Black
                     )
                 }
-
                 Spacer(modifier = Modifier.height(4.dp))
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -510,6 +512,227 @@ fun TourGuideCard(
         }
     }
 }
+
+@Composable
+fun WishlistCard(
+    name: String,
+    rating: Int,
+    price: String,
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    isFavorite: Boolean,
+    onFavClick: () -> Unit,
+    onClick: () -> Unit,
+) {
+    Card(
+        modifier = modifier
+            .padding(horizontal = 20.dp, vertical = 8.dp)
+            .fillMaxHeight()
+            .height(150.dp),
+        elevation = cardElevation(
+            defaultElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        border = BorderStroke(2.dp, green.copy(alpha = 0.5f)).copy(),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .clickable(onClick = onClick)
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            // Gambar
+            Image(
+                painter = painterResource(id = R.drawable.detail_wisata),
+                contentDescription = "Wishlist Image",
+                modifier = Modifier
+                    .size(150.dp)
+                    .padding(end = 8.dp)
+            )
+
+            // Teks
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = 30.dp), verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    fontWeight = FontWeight.Bold
+                )
+                Row(
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                ) {
+                    repeat(rating) {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            tint = orange,
+                            contentDescription = "Star",
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+                Text(
+                    text = "Rp $price",
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier.padding(start = 8.dp),
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Button(
+                    enabled = true,
+                    contentPadding = PaddingValues(),
+                    modifier = Modifier
+                        .size(80.dp)
+                        .padding(start = 10.dp),
+                    onClick = {
+                        onClick()},
+                    colors = ButtonDefaults.buttonColors(containerColor = orange)
+                )
+                {
+                    Text(text = "See Details", color = Color.White,  fontSize = 10.sp)
+                }
+            }
+            // Tombol Favorite
+            Column (modifier = Modifier.padding(bottom = 60.dp) , horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
+                IconButton(
+                    onClick = onFavClick,
+                    ) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = "Favorite",
+                        tint = if (isFavorite) Color.Red else Color.Black
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun PermintaanPertemananCard(
+    typePartner: Int,
+    nama: String,
+    daerah: String,
+    umur: Int,
+    onClickTerima: () -> Unit,
+    onClickTolak: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(120.dp)
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(48.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        border = BorderStroke(2.dp, grey.copy(alpha = 1f)).copy()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+
+        ) {
+            // Image profil
+            Image(
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(CircleShape),
+                painter = painterResource(id = R.drawable.dummy_tg),
+                contentDescription = "Foto Profil"
+            )
+
+            // Informasi teks
+            Column(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+            ) {
+                Text(
+                    text = nama,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "$daerah",
+                    style = MaterialTheme.typography.labelMedium
+                )
+                Card(
+                    modifier = Modifier.height(25.dp),
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(
+                    containerColor = green
+                ),
+                    ) {
+                    Text(
+                        modifier = Modifier.padding(5.dp),
+                        text = "$umur Tahun",
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                }
+
+            }
+
+            // Icon button
+            Spacer(modifier = Modifier.weight(1f))
+
+            Row(
+                modifier = Modifier
+
+            ) {
+                if (typePartner == 1){
+                    IconButton(
+                        onClick = onClickTolak,
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = "Reject Request"
+                        )
+                    }
+                    IconButton(
+                        onClick = onClickTerima,
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Check,
+                            contentDescription = "Accept Request"
+                        )
+                    }
+                } else if(typePartner == 2){
+                    IconButton(
+                        onClick = onClickTolak,
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Add,
+                            contentDescription = "Add Request"
+                        )
+                    }
+                } else if(typePartner == 3){
+                    Button(
+                        contentPadding = PaddingValues(vertical = 5.dp, horizontal = 1.dp),
+                        modifier = Modifier.width(80.dp).height(30.dp),
+                        onClick = { onClickTerima() },
+                        colors = ButtonDefaults.buttonColors(containerColor = orange)
+                    ) {
+                        Text(text = "See Details", fontSize = 12.sp)
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+
 
 
 

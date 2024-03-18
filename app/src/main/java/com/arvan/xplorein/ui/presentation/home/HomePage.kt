@@ -172,14 +172,17 @@ navController.navigate("tour_guide")
             }
             item {
                 HomeButton(icon = Icons.Default.Sms, text = "Partner", onClick = {
-                    navController.navigate("payment")
+                    navController.navigate("partner")
                 })
             }
             item {
                 HomeButton(icon = Icons.Default.Restaurant, text = "Food", onClick = { /*TODO*/ })
             }
             item {
-                HomeButton(icon = Icons.Default.Favorite, text = "Wishlist", onClick = { /*TODO*/ })
+                HomeButton(icon = Icons.Default.Favorite, text = "Wishlist", onClick = {
+
+                    navController.navigate("wishlist")
+                })
             }
         }
 

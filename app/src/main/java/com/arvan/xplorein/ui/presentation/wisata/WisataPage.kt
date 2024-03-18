@@ -182,7 +182,7 @@ import kotlinx.coroutines.tasks.await
                         onFavClick = { updateFavoriteStatus(index) }, // Callback untuk memperbarui status favorit
                         onClick = { /*TODO*/
                                   navController.navigate("detail_wisata")},
-                        key = touristDestinations[index].name
+
                     )
                 }
             }

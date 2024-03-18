@@ -19,6 +19,7 @@ import com.arvan.xplorein.ui.presentation.wisata.WisataScreen
 import com.arvan.xplorein.ui.presentation.booking.BookingScreen
 import com.arvan.xplorein.ui.presentation.home.HomeScreen
 import com.arvan.xplorein.ui.presentation.onboarding.OnboardingScreen
+import com.arvan.xplorein.ui.presentation.partner.PartnerScreen
 import com.arvan.xplorein.ui.presentation.payment.DetailBookingCard
 import com.arvan.xplorein.ui.presentation.payment.PaymentSuccessScreen
 import com.arvan.xplorein.ui.presentation.profile.ProfileContent
@@ -28,6 +29,7 @@ import com.arvan.xplorein.ui.presentation.sign_up.SignUpScreen
 import com.arvan.xplorein.ui.presentation.tour_guide.DetailTourGuideScreen
 import com.arvan.xplorein.ui.presentation.tour_guide.TourGuideScreen
 import com.arvan.xplorein.ui.presentation.wisata.DetailWisataScreen
+import com.arvan.xplorein.ui.presentation.wishlist.WishlistScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController,
@@ -120,6 +122,16 @@ fun AppNavigation(navController: NavHostController,
         composable("detail_tg"){
             isBottomBar.value = false
             DetailTourGuideScreen(navController = navController)
+        }
+        
+        composable("wishlist"){
+            isBottomBar.value = false
+            WishlistScreen(navController = navController)
+        }
+        
+        composable("partner"){
+            isBottomBar.value = false
+            PartnerScreen(navController = navController)
         }
 
     }
