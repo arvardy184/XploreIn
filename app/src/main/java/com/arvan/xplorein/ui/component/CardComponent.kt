@@ -19,7 +19,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Favorite
@@ -53,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.theme.grey
 import com.arvan.xplorein.ui.theme.orange
+import com.arvan.xplorein.ui.theme.white
 import com.arvan.xplorein.ui.theme.yellow
 
 @Composable
@@ -311,13 +314,20 @@ fun PaymentSuccessCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 10.dp)
-        , // Menyesuaikan tinggi sesuai kebutuhan
+
+        ,
         contentAlignment = Alignment.Center
     ) {
         Card(
             modifier = Modifier,
             shape = RoundedCornerShape(8.dp),
-            border = BorderStroke(width = 1.dp, color = borderColor)
+            border = BorderStroke(width = 1.dp, color = borderColor),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            ),
+            elevation = cardElevation(
+                defaultElevation = 4.dp
+            )
         ) {
             Spacer(modifier = Modifier.height(10.dp))
             Column(
@@ -374,7 +384,7 @@ fun PaymentSuccessCard(
                         color = Color.Gray
                     )
                     Text(
-                        text = paymentDate,
+                        text = paymentMethod,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color.Black
@@ -400,6 +410,21 @@ fun PaymentSuccessCard(
                         color = Color.Black
                     )
                 }
+
+                Spacer(modifier = Modifier.height(14.dp))
+                Row(modifier = Modifier.padding(horizontal = 10.dp)) {
+                    Text(text = "Tour Guide E-Ticket", color = Color.Black, fontSize = 14.sp)
+                }
+//                Spacer(modifier = Modifier.height(14.dp))
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top) {
+                Image(
+                    painter = painterResource(id = R.drawable.barcode),
+                    contentDescription = "Barcode",
+                    modifier = Modifier.size(180.dp),
+                    alignment = Alignment.Center
+                )
+            }
+
             }
         }
         Icon(
@@ -414,6 +439,76 @@ fun PaymentSuccessCard(
     }
 
 
+}
+@Composable
+fun TourGuideCard(
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    onClick: () -> Unit,
+) {
+    Card(
+        modifier = modifier
+            .padding(10.dp)
+            .size(230.dp)
+            .clickable(onClick = onClick)
+           ,
+        elevation = cardElevation(
+            defaultElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        border = BorderStroke(1.dp, Color.Gray.copy(alpha = 0.5f)).copy(),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier = Modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Box(modifier = Modifier
+                .aspectRatio(1f)
+                .padding(14.dp)) {
+                Image(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .fillMaxWidth(1f)
+                        .fillMaxHeight(1f),
+                    contentScale = ContentScale.Crop,
+                    alignment = Alignment.Center,
+                    painter = painterResource(id = R.drawable.dummy_tg),
+                    contentDescription = "Profile"
+                )
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                       ,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = "Rating",
+                        tint = orange,
+                        modifier = Modifier
+
+                            .size(24.dp)
+                            .padding(4.dp)
+                    )
+                    Text(text = "4.5", color = white, fontSize = 12.sp)
+                }
+            }
+            Text(
+                text = "Arvan Yudhistia",
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Aceh",
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
+    }
 }
 
 

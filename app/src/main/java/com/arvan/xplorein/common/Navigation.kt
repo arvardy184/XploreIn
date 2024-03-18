@@ -2,6 +2,7 @@ package com.arvan.xplorein.common
 
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -24,6 +25,8 @@ import com.arvan.xplorein.ui.presentation.profile.ProfileContent
 import com.arvan.xplorein.ui.presentation.sign_in.GoogleAuthUiClient
 import com.arvan.xplorein.ui.presentation.sign_in.SignInContent
 import com.arvan.xplorein.ui.presentation.sign_up.SignUpScreen
+import com.arvan.xplorein.ui.presentation.tour_guide.DetailTourGuideScreen
+import com.arvan.xplorein.ui.presentation.tour_guide.TourGuideScreen
 import com.arvan.xplorein.ui.presentation.wisata.DetailWisataScreen
 
 @Composable
@@ -83,10 +86,17 @@ fun AppNavigation(navController: NavHostController,
             isBottomBar.value = true
             BookingScreen(navController = navController)
         }
-        
-        composable("wisata"){
-            isBottomBar.value = false
-            WisataScreen(navController = navController)
+
+        composable("wisata/{cityId}") { backStackEntry ->
+            val cityId = backStackEntry.arguments?.getString("cityId")
+            if (cityId != null) {
+                isBottomBar.value = false
+                WisataScreen(navController = navController, cityId = cityId)
+                Log.d("TAG", "AppNavigation: $cityId")
+            } else {
+                // Handle case when cityId is null
+                Log.d("TAG", "AppNavigation: cityId is null")
+            }
         }
 
         composable("payment"){
@@ -100,6 +110,16 @@ fun AppNavigation(navController: NavHostController,
         
         composable("detail_booking"){
             DetailBookingCard(navController = navController)
+        }
+
+        composable("tour_guide"){
+            isBottomBar.value = false
+            TourGuideScreen(navController = navController)
+        }
+
+        composable("detail_tg"){
+            isBottomBar.value = false
+            DetailTourGuideScreen(navController = navController)
         }
 
     }

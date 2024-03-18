@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
+import com.arvan.xplorein.common.CheckboxStatus
 import com.arvan.xplorein.ui.component.SubmitButton
 import com.arvan.xplorein.ui.theme.XploreInTheme
 import com.arvan.xplorein.ui.theme.orange
@@ -288,7 +289,3 @@ fun DetailWisataScreen(navController: NavController) {
     }
 }
 
-enum class CheckboxStatus {
-    YES,
-    NO
-}

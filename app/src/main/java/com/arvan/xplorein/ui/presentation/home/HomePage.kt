@@ -167,7 +167,7 @@ XploreInTheme {
         ) {
             item {
                 HomeButton(icon = Icons.Default.Map, text = "Tour Guide", onClick = { /*TODO*/
-
+navController.navigate("tour_guide")
                 })
             }
             item {
@@ -196,7 +196,7 @@ XploreInTheme {
                         imageResId =
                         R.drawable.kota1,
                         onClick = {
-                            navController.navigate("wisata")
+                            navController.navigate("wisata/${destination.id}")
                         }
                     )
                 }

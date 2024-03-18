@@ -1,5 +1,6 @@
 package com.arvan.xplorein.ui.presentation.wisata
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +30,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,17 +42,33 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
+import com.arvan.xplorein.data.Model.WisataModel
+import com.arvan.xplorein.domain.repository.WisataRepository
 import com.arvan.xplorein.ui.component.HomeButton
 import com.arvan.xplorein.ui.component.RoundedImageWithText
 import com.arvan.xplorein.ui.component.TouristDestination
 import com.arvan.xplorein.ui.component.TouristDestinationCard
 import com.arvan.xplorein.ui.theme.XploreInTheme
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.tasks.await
 
 @Composable
-fun WisataScreen(
+ fun WisataScreen(
     navController: NavController,
+    cityId: String,
     modifier: Modifier = Modifier.fillMaxSize()
 ) {
+    val wisataRepository = WisataRepository()
+
+    LaunchedEffect(Unit) {
+        wisataRepository.getWisataByCity(cityId)
+
+        Log.d("wisata", wisataRepository.getWisataByCity(cityId).toString())
+
+    }
+
     val touristDestinations = remember {
         mutableListOf(
             TouristDestination(
@@ -170,36 +189,3 @@ fun WisataScreen(
         }
     }
 }
-//                    val touristDestinations = listOf(
-//                        TouristDestination(
-//                            name = "Pantai Kuta",
-//                            imageResId = R.drawable.kota1,
-//                            rating = 4,
-//                            price = "200.000",
-//                            isFav = false
-//                        ),
-//                        TouristDestination(
-//                            name = "Ubud Monkey Forest",
-//                            imageResId = R.drawable.kota1,
-//                            rating = 5,
-//                            price = "150.000",
-//                            isFav = true
-//                        ),
-//                        TouristDestination(
-//                            name = "Pantai Kuta",
-//                            imageResId = R.drawable.kota1,
-//                            rating = 4,
-//                            price = "200.000",
-//                            isFav = false
-//                        ),
-//                    )
-//
-//                    TouristDestinationCard(
-//                        touristDestination = touristDestinations[it],
-//                        onClick = { /*TODO*/ }
-//                    )
-//
-//                }
-//
-//            }
-
