@@ -1,5 +1,6 @@
 package com.arvan.xplorein.ui.presentation.profile
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.filled.ConfirmationNumber
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -24,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -50,7 +58,9 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally){
 
-        Row(modifier = Modifier.fillMaxWidth().padding(20.dp),
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(20.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
 
@@ -81,6 +91,15 @@ fun ProfileScreen(
                       .size(150.dp)
                       .clip(CircleShape),
                   contentScale = ContentScale.Crop)
+            }else {
+                Image(
+                    painter = painterResource(id = R.drawable.profile),
+                    contentDescription = "Profile picture",
+                    modifier = Modifier
+                        .size(150.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
             }
 
         if(userData?.username != null){
@@ -89,12 +108,17 @@ fun ProfileScreen(
                 fontSize = 36.sp,
                 fontWeight = FontWeight.SemiBold)
             Spacer(modifier = Modifier.height(16.dp))
+        } else {
+            Text(text = "Arvan",
+                textAlign = TextAlign.Center,
+                fontSize = 36.sp,
+                fontWeight = FontWeight.SemiBold)
         }
-        ProfileButton(icon = Icons.Default.Menu, text = "View and Edit Profile", onClick = { /*TODO*/ })
-        ProfileButton(icon = Icons.Default.Menu, text = "View and Edit Profile", onClick = { /*TODO*/ })
-        ProfileButton(icon = Icons.Default.Menu, text = "View and Edit Profile", onClick = { /*TODO*/ })
-        ProfileButton(icon = Icons.Default.Menu, text = "View and Edit Profile", onClick = { /*TODO*/ })
-        ProfileButton(icon = Icons.Default.Menu, text = "View and Edit Profile", onClick = { /*TODO*/ })
+        ProfileButton(icon = Icons.Filled.Person, text = "View and Edit Profile", onClick = { /*TODO*/ })
+        ProfileButton(icon = Icons.Filled.ConfirmationNumber, text = "Bookings", onClick = { /*TODO*/ })
+        ProfileButton(icon = Icons.Filled.Favorite, text = "Wishlist", onClick = { /*TODO*/ })
+        ProfileButton(icon = Icons.AutoMirrored.Filled.Help, text = "Help and Center", onClick = { /*TODO*/ })
+        ProfileButton(icon = Icons.Default.Settings, text = "Setting", onClick = { /*TODO*/ })
 
         Button(onClick = onSignOutClick, colors = ButtonDefaults.buttonColors(containerColor = red)) {
             Text(text = "Logout")

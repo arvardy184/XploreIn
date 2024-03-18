@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.arvan.xplorein.common.DetailPayment
+import com.arvan.xplorein.ui.component.SubmitButton
 import com.arvan.xplorein.ui.theme.orange
 import com.arvan.xplorein.ui.theme.yellow
 import kotlinx.coroutines.delay
@@ -79,7 +80,6 @@ fun DetailBookingCard(navController: NavController) {
                     .padding(vertical = 16.dp, horizontal = 16.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = yellow),
-
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp)
@@ -186,7 +186,7 @@ fun DetailBookingCard(navController: NavController) {
 
 
                             Spacer(modifier = Modifier.height(8.dp))
-
+                            SubmitButton(isEnabled = true, onClick = {  navController.navigate("payment_success")}, text = "I Already Paid")
 
 
                         }
@@ -197,6 +197,8 @@ fun DetailBookingCard(navController: NavController) {
             }
 
          DetailPayment()
+            Spacer(modifier = Modifier.height(8.dp))
+            SubmitButton(isEnabled = true, onClick = {  navController.navigate("payment_success")}, text = "I Already Paid")
         }
         if (isCopied.value) {
             Text(
@@ -205,6 +207,7 @@ fun DetailBookingCard(navController: NavController) {
                 color = Color.Gray
             )
         }
+
     }
 }
 

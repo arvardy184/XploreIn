@@ -55,7 +55,8 @@ fun DetailWisataScreen(navController: NavController) {
     var date = remember { mutableStateOf("") }
     val month = remember { mutableStateOf("") }
     val year = remember { mutableStateOf("") }
-    val isChecked = remember { mutableStateOf(false) }
+    val checkboxStatus = remember { mutableStateOf(CheckboxStatus.NO) }
+    val isChecked2 = remember { mutableStateOf(false) }
     XploreInTheme {
 
         Column(
@@ -258,21 +259,25 @@ fun DetailWisataScreen(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(
-                        checked = isChecked.value,
-                        onCheckedChange = { isChecked.value = it },
+                        checked = checkboxStatus.value == CheckboxStatus.YES,
+                        onCheckedChange = {
+                            if (it) checkboxStatus.value = CheckboxStatus.YES
+                        },
                         modifier = Modifier.padding(end = 8.dp)
                     )
                     Text(text = "Yes")
 
                     Checkbox(
-                        checked = !isChecked.value,
-                        onCheckedChange = { isChecked.value = !it },
+                        checked = checkboxStatus.value == CheckboxStatus.NO,
+                        onCheckedChange = {
+                            if (it) checkboxStatus.value = CheckboxStatus.NO
+                        },
                         modifier = Modifier.padding(end = 8.dp)
                     )
                     Text(text = "No")
                 }
 
-                SubmitButton(isEnabled = isChecked.value && date.value.isNotEmpty() && month.value.isNotEmpty() && year.value.isNotEmpty(), onClick = { navController.navigate("payment") }, text = "Book")
+                SubmitButton(isEnabled =  date.value.isNotEmpty() && month.value.isNotEmpty() && year.value.isNotEmpty(), onClick = { navController.navigate("payment") }, text = "Book")
 
 
             }
@@ -281,4 +286,9 @@ fun DetailWisataScreen(navController: NavController) {
         }
 
     }
+}
+
+enum class CheckboxStatus {
+    YES,
+    NO
 }

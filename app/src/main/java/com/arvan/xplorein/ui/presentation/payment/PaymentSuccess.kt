@@ -19,12 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.component.PaymentSuccessCard
+import com.arvan.xplorein.ui.component.SubmitButton
 
 @Composable
 fun PaymentSuccessScreen(navController: NavController){
     Column(modifier = Modifier
         .padding(20.dp)
-        .padding(bottom = 20.dp,top = 60.dp),verticalArrangement = Arrangement.Top,
+        .padding(bottom = 20.dp, top = 60.dp),verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,) {
         Box(modifier = Modifier
             .height(200.dp)
@@ -43,14 +44,20 @@ fun PaymentSuccessScreen(navController: NavController){
         val title = "Pembayaran Berhasil"
         val amount = "Rp 100.000"
         val paymentDate = "2023-03-18"
+        val paymentMethode = "Mandiri"
 
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier) {
             PaymentSuccessCard(
                 title = title,
                 amount = amount,
-                paymentDate = paymentDate
+                paymentMethod = paymentMethode,
+                paymentDate = paymentDate,
+                
             )
         }
+        Spacer(modifier = Modifier.height(20.dp))
+        SubmitButton(isEnabled = true, onClick = {  navController.navigate("home")}, text = "Back" )
+        
     }
 
 }

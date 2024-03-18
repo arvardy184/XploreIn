@@ -4,7 +4,7 @@ import com.arvan.xplorein.ui.component.TouristDestination
 
 interface TouristDestinationRepository {
     suspend fun fetchTouristDestinations(): List<TouristDestination>
-
+    suspend fun fetchListDestinations(): List<TouristDestination>
     suspend fun updateFavoriteStatus(destination: TouristDestination)
 
 }

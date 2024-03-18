@@ -33,7 +33,7 @@ fun AppNavigation(navController: NavHostController,
                   applicationContext: Context,
                   isBottomBar: MutableState<Boolean>) {
 
-    NavHost(navController = navController, startDestination = "payment_success") {
+    NavHost(navController = navController, startDestination = "home") {
 
         composable("payment_success"){
             isBottomBar.value = false

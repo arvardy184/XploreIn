@@ -302,6 +302,7 @@ fun PaymentSuccessCard(
     modifier: Modifier = Modifier,
     title: String,
     amount: String,
+    paymentMethod: String,
     paymentDate: String,
 ) {
     val checkIconColor = Color(0xFF2ECC40)
@@ -320,18 +321,19 @@ fun PaymentSuccessCard(
         ) {
             Spacer(modifier = Modifier.height(10.dp))
             Column(
-                modifier = Modifier.padding(20.dp)
+                modifier = Modifier.padding(30.dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = title,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
-                        color = Color.Black
+                        color = Color.Black,
+                        textAlign = TextAlign.Center
                     )
                 }
 
@@ -347,7 +349,7 @@ fun PaymentSuccessCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Jumlah:",
+                        text = "Purchased On:",
                         fontSize = 14.sp,
                         color = Color.Gray
                     )
@@ -367,7 +369,27 @@ fun PaymentSuccessCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Tanggal Pembayaran:",
+                        text = "Payment Method:",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                    Text(
+                        text = paymentDate,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Price Details:",
                         fontSize = 14.sp,
                         color = Color.Gray
                     )
@@ -385,7 +407,7 @@ fun PaymentSuccessCard(
             contentDescription = "Check Icon",
             tint = checkIconColor,
             modifier = Modifier
-                .size(48.dp)
+                .size(56.dp)
                 .align(Alignment.TopCenter)
                 .offset(0.dp, -20.dp)
         )
