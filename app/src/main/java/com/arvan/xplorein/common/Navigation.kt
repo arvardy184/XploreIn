@@ -85,7 +85,7 @@ fun AppNavigation(navController: NavHostController,
         }
 
         composable (BottomNavItem.Booking.route){
-            // TODO
+
             isBottomBar.value = true
             BookingScreen(navController = navController)
         }
@@ -106,10 +106,15 @@ fun AppNavigation(navController: NavHostController,
             PaymentScreen(navController = navController)
         }
 
-        composable("detail_wisata"){
-            isBottomBar.value = false
-            DetailWisataScreen(navController = navController)
-        }
+        composable("{cityId}/detail_wisata/{wisataId}"){
+            val wisataId = it.arguments?.getString("wisataId")
+            val cityId = it.arguments?.getString("cityId")
+            if (wisataId != null  && cityId != null)  {
+                Log.d("TAG", "AppNavigation Detail: $wisataId $cityId")
+                isBottomBar.value = false
+                DetailWisataScreen(navController = navController, cityId =cityId ,wisataId = wisataId)
+            }
+             }
         
         composable("detail_booking"){
             DetailBookingCard(navController = navController)

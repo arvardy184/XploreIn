@@ -1,5 +1,6 @@
 package com.arvan.xplorein.ui.presentation.wisata
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -22,14 +24,18 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,248 +50,291 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
 import com.arvan.xplorein.common.CheckboxStatus
+import com.arvan.xplorein.common.ViewState
+import com.arvan.xplorein.data.Model.DetailWisataModel
+import com.arvan.xplorein.data.ViewModel.WisataViewModel
 import com.arvan.xplorein.ui.component.SubmitButton
 import com.arvan.xplorein.ui.theme.XploreInTheme
 import com.arvan.xplorein.ui.theme.orange
 
 @Composable
-fun DetailWisataScreen(navController: NavController) {
+fun DetailWisataScreen(navController: NavController,cityId: String, wisataId: String,viewModel: WisataViewModel = hiltViewModel()) {
     var date = remember { mutableStateOf("") }
     val month = remember { mutableStateOf("") }
     val year = remember { mutableStateOf("") }
     val checkboxStatus = remember { mutableStateOf(CheckboxStatus.NO) }
     val isChecked2 = remember { mutableStateOf(false) }
-    XploreInTheme {
+    val viewState by remember {viewModel.viewStateDetail}.collectAsState(initial = ViewState.Loading)
+    val detailWisata by remember {viewModel.detailWisata}.collectAsState(initial = DetailWisataModel())
 
+
+    LaunchedEffect(Unit) {
+        viewModel.getDetailWisata(cityId, wisataId)
+    }
+
+    LaunchedEffect(detailWisata) {
+        Log.d("detail wisata", detailWisata.toString() + " "  + " " + viewState)
+    }
+
+
+
+    XploreInTheme {
         Column(
             modifier = Modifier
         ) {
+            Log.d("detail wisata", detailWisata.toString() + " "  + " " + viewState)
+            when (viewState) {
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(250.dp),
-                shape = RoundedCornerShape(16.dp),
-            ) {
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(16.dp)),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    Image(
-                        modifier = Modifier.fillMaxSize(),
-                        painter = painterResource(id = R.drawable.detail_wisata),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
-                    Box(
+                ViewState.Success -> {
+                    Log.d("state apaa ", detailWisata.toString())
+                    Card(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(20.dp)
-                            .padding(top = 20.dp,),
-                        contentAlignment = Alignment.TopCenter
+                            .fillMaxWidth()
+                            .height(250.dp),
+                        shape = RoundedCornerShape(16.dp),
                     ) {
-                        // Teks
-                        Column(
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(RoundedCornerShape(16.dp)),
+                            contentAlignment = Alignment.BottomCenter
                         ) {
-                            Row(
+                            Image(
+                                modifier = Modifier.fillMaxSize(),
+                                painter = painterResource(id = R.drawable.detail_wisata),
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop
+                            )
+                            Box(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    //spaceBetween
-                                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                                Arrangement.Start
+                                    .fillMaxSize()
+                                    .padding(20.dp)
+                                    .padding(top = 20.dp,),
+                                contentAlignment = Alignment.TopCenter
                             ) {
-                                IconButton(
-                                    onClick = { navController.popBackStack() },
-                                    modifier = Modifier.size(24.dp)
+                                // Teks
+                                Column(
+                                    verticalArrangement = Arrangement.Top,
+                                    horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = "Back"
-                                    )
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            //spaceBetween
+                                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                                        Arrangement.Start
+                                    ) {
+                                        IconButton(
+                                            onClick = { navController.popBackStack() },
+                                            modifier = Modifier.size(24.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                                contentDescription = "Back"
+                                            )
+                                        }
+                                    }
+
                                 }
+
+
+                                Spacer(modifier = Modifier.height(200.dp))
+
+
                             }
 
                         }
-
-
-                        Spacer(modifier = Modifier.height(200.dp))
-
-
                     }
+                    Column(
+                        modifier = Modifier
 
-                }
-            }
-            Column(
-                modifier = Modifier
-
-                    .fillMaxWidth()
+                            .fillMaxWidth()
 
 
-                    .padding(horizontal = 16.dp, vertical = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                Text(
-                    text = "Jatim Park 3",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Row(
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp) // Adjust padding for the stars
-                ) {
-                    repeat(5) {
-                        Icon(
-                            imageVector = Icons.Default.Star,
-                            tint = orange,
-                            contentDescription = "Star",
-                            modifier = Modifier.size(16.dp) // Adjust size of the stars
+                            .padding(horizontal = 16.dp, vertical = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        Text(
+                            text = detailWisata?.name ?: "" ,
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.SemiBold
                         )
+                        Row(
+                            modifier = Modifier.padding(
+                                horizontal = 8.dp,
+                                vertical = 4.dp
+                            ) // Adjust padding for the stars
+                        ) {
+                            repeat(5) {
+                                Icon(
+                                    imageVector = Icons.Default.Star,
+                                    tint = orange,
+                                    contentDescription = "Star",
+                                    modifier = Modifier.size(16.dp) // Adjust size of the stars
+                                )
+                            }
+                        }
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = "Deskripsi",
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+
+                        // Deskripsi
+                        Text(
+                           text = detailWisata?.description ?: "" ,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Normal
+
+                        )
+                        Text(
+                            text = "Price",
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+
+
+                        Text(
+                            text = "Rp. ${detailWisata?.price}/ Person",
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+
+                        Text(
+                            text = "Date",
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+
+                            OutlinedTextField(
+                                label = { Text("dd") },
+                                value = date.value,
+                                onValueChange = { newDate -> date.value = newDate },
+                                singleLine = true,
+                                modifier = Modifier
+                                    .weight(0.3f)
+                                    .padding(end = 4.dp),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                            )
+
+                            Box(
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp)
+                                    .size(20.dp)
+                            ) {
+                                Text("/", fontSize = 20.sp, color = Color.Black)
+                            }
+
+
+                            OutlinedTextField(
+                                label = { Text("mm") },
+                                value = month.value,
+                                onValueChange = { newMonth -> month.value = newMonth },
+                                singleLine = true,
+                                modifier = Modifier
+                                    .weight(0.3f)
+                                    .padding(start = 4.dp, end = 4.dp),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                            )
+
+                            Box(
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp)
+                                    .size(20.dp)
+                            ) {
+                                Text("/", fontSize = 20.sp, color = Color.Black)
+                            }
+
+
+                            OutlinedTextField(
+                                label = { Text("yyyy") },
+                                value = year.value,
+                                onValueChange = { newYear -> year.value = newYear },
+                                singleLine = true,
+                                modifier = Modifier
+                                    .weight(0.3f)
+                                    .padding(start = 4.dp),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                            )
+                        }
+
+                        Text(
+                            text = "Do you need a partner?",
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Checkbox(
+                                checked = checkboxStatus.value == CheckboxStatus.YES,
+                                onCheckedChange = {
+                                    if (it) checkboxStatus.value = CheckboxStatus.YES
+                                },
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                            Text(text = "Yes")
+
+                            Checkbox(
+                                checked = checkboxStatus.value == CheckboxStatus.NO,
+                                onCheckedChange = {
+                                    if (it) checkboxStatus.value = CheckboxStatus.NO
+                                },
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                            Text(text = "No")
+                        }
+
+                        SubmitButton(
+                            isEnabled = date.value.isNotEmpty() && month.value.isNotEmpty() && year.value.isNotEmpty(),
+                            onClick = { navController.navigate("payment") },
+                            text = "Book"
+                        )
+
+                    }
+
+
                 }
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Column (modifier = Modifier.fillMaxWidth()){
-                Text(
-                    text = "Deskripsi",
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding( horizontal = 16.dp)
-                )
-
-                // Deskripsi
-                Text(
-                    text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non ligula vitae lectus tempus egestas. Maecenas maximus, nisi sit amet egestas hendrerit, ex nibh efficitur ex, a ultrices arcu purus eu justo.",
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal
-
-                )
-                Text(
-                    text = "Price",
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding( horizontal = 16.dp)
-                )
-
-
-                Text(
-                    text = "Rp. 100.000 / Person",
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal
-                )
-
-                Text(
-                    text = "Date",
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding( horizontal = 16.dp)
-                )
-
-                Row(
+            ViewState.Loading -> {
+                CircularProgressIndicator(
                     modifier = Modifier
-                        .padding(10.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                    ,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-
-                    OutlinedTextField(
-                        label = { Text("dd") },
-                        value = date.value,
-                        onValueChange = { newDate -> date.value = newDate },
-                        singleLine = true,
-                        modifier = Modifier
-                            .weight(0.3f)
-                            .padding(end = 4.dp),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(20.dp)
-                    ) {
-                        Text("/", fontSize = 20.sp, color = Color.Black)
-                    }
-
-
-                    OutlinedTextField(
-                        label = { Text("mm") },
-                        value = month.value,
-                        onValueChange = { newMonth -> month.value = newMonth },
-                        singleLine = true,
-                        modifier = Modifier
-                            .weight(0.3f)
-                            .padding(start = 4.dp, end = 4.dp),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(20.dp)
-                    ) {
-                        Text("/", fontSize = 20.sp, color = Color.Black)
-                    }
-
-
-                    OutlinedTextField(
-                        label = { Text("yyyy") },
-                        value = year.value,
-                        onValueChange = { newYear -> year.value = newYear },
-                        singleLine = true,
-                        modifier = Modifier
-                            .weight(0.3f)
-                            .padding(start = 4.dp),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                    )
-                }
-
-
-                Text(
-                    text = "Do you need a partner?",
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding( horizontal = 16.dp)
+                        .fillMaxSize()
+                        .wrapContentSize(align = Alignment.Center)
                 )
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = checkboxStatus.value == CheckboxStatus.YES,
-                        onCheckedChange = {
-                            if (it) checkboxStatus.value = CheckboxStatus.YES
-                        },
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(text = "Yes")
-
-                    Checkbox(
-                        checked = checkboxStatus.value == CheckboxStatus.NO,
-                        onCheckedChange = {
-                            if (it) checkboxStatus.value = CheckboxStatus.NO
-                        },
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                    Text(text = "No")
-                }
-
-                SubmitButton(isEnabled =  date.value.isNotEmpty() && month.value.isNotEmpty() && year.value.isNotEmpty(), onClick = { navController.navigate("payment") }, text = "Book")
-
-
             }
-
-
+                ViewState.Error -> {
+                    Text(
+                        text = "Terjadi kesalahan saat memuat data",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(onClick = { viewModel.getDetailWisata(cityId, wisataId) }) {
+                        Text("Coba Lagi")
+                    }
+                }
         }
-
-    }
-}
+        }
+}}
 

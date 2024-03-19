@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arvan.xplorein.common.ViewState
+import com.arvan.xplorein.data.Model.DetailWisataModel
 import com.arvan.xplorein.data.Model.WisataModel
 import com.arvan.xplorein.domain.repository.TouristDestinationRepository
 import com.arvan.xplorein.domain.repository.WisataRepository
@@ -28,6 +29,13 @@ class WisataViewModel @Inject constructor(
     private val _wisataList = MutableStateFlow<List<WisataModel>>(emptyList())
     val wisataList: StateFlow<List<WisataModel>> = _wisataList.asStateFlow()
 
+    private val _viewStateDetail = MutableStateFlow<ViewState>(ViewState.Loading) // Initial state
+    val viewStateDetail: StateFlow<ViewState> = _viewStateDetail.asStateFlow() // Expose read-only StateFlow
+
+    private val _detailWisata = MutableStateFlow<DetailWisataModel?>(null)
+
+    val detailWisata: StateFlow<DetailWisataModel?> = _detailWisata.asStateFlow()
+
     fun getWisataByCity(cityId: String) {
         viewModelScope.launch {
             try {
@@ -39,6 +47,21 @@ class WisataViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e("WisataRepository", "Error getting wisata data", e)
                 _viewState.value = ViewState.Error // Update state to error on exception
+            }
+        }
+    }
+
+    fun getDetailWisata(cityId: String,wisataId: String) {
+        viewModelScope.launch {
+            try {
+                _viewStateDetail.value = ViewState.Loading // Update state to loading
+                val wisata = wisataRepository.getDetailWisata(cityId,wisataId)
+                _detailWisata.value = wisata
+                _viewStateDetail.value = ViewState.Success // Update state to success after data retrieval
+                Log.d("Wisata View Model", "Wisata data retrieved successfully: $wisata")
+            } catch (e: Exception) {
+                Log.e("Wisata View Model", "Error getting wisata data", e)
+                _viewStateDetail.value = ViewState.Error // Update state to error on exception
             }
         }
     }

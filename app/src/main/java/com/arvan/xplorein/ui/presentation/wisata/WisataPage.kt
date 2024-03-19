@@ -71,15 +71,13 @@ import com.arvan.xplorein.common.ViewState
     modifier: Modifier = Modifier.fillMaxSize(),
     viewModel: WisataViewModel = hiltViewModel()
 ) {
-
-       val viewState by remember {viewModel.viewState}.collectAsState(initial = ViewState.Loading)
+     val viewState by remember {viewModel.viewState}.collectAsState(initial = ViewState.Loading)
 
     val wisataList by remember { viewModel.wisataList}.collectAsState(initial = emptyList())
-    LaunchedEffect(Unit) {
 
+    LaunchedEffect(Unit) {
         viewModel.getWisataByCity(cityId) // Trigger data fetch
     }
-
 
     XploreInTheme {
         // Content
@@ -171,7 +169,10 @@ import com.arvan.xplorein.common.ViewState
                                     touristDestination = wisata,
                                     isFavorite = wisata.isFav,
                                     onFavClick = {},
-                                    onClick = { navController.navigate("detail_wisata") },
+                                    onClick = {
+                                        navController.navigate("${cityId}/detail_wisata/${wisata.id}")
+                                              Log.d("Wisata id", wisata.id)
+                                    },
                                 )
                             }
                         }
