@@ -44,7 +44,10 @@ import com.arvan.xplorein.ui.presentation.sign_in.SignInScreen
 import com.arvan.xplorein.ui.presentation.sign_in.SignInViewModel
 import com.arvan.xplorein.ui.presentation.sign_up.SignUpScreen
 import com.arvan.xplorein.ui.theme.XploreInTheme
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.launch
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val googleAuthUiClient by lazy {
         GoogleAuthUiClient(

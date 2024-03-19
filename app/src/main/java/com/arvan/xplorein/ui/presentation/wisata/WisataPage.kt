@@ -31,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,9 +41,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
 import com.arvan.xplorein.data.Model.WisataModel
+import com.arvan.xplorein.data.ViewModel.WisataViewModel
 import com.arvan.xplorein.domain.repository.WisataRepository
 import com.arvan.xplorein.ui.component.HomeButton
 import com.arvan.xplorein.ui.component.RoundedImageWithText
@@ -53,51 +57,24 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @Composable
  fun WisataScreen(
     navController: NavController,
     cityId: String,
-    modifier: Modifier = Modifier.fillMaxSize()
+    modifier: Modifier = Modifier.fillMaxSize(),
+    viewModel: WisataViewModel = hiltViewModel()
 ) {
-    val wisataRepository = WisataRepository()
 
+    val wisataList = remember { viewModel.wisataList.collectAsState().value }
+    val viewState = remember {viewModel.viewState}
     LaunchedEffect(Unit) {
-        wisataRepository.getWisataByCity(cityId)
-
-        Log.d("wisata", wisataRepository.getWisataByCity(cityId).toString())
-
+        viewModel.getWisataByCity(cityId)
     }
 
-    val touristDestinations = remember {
-        mutableListOf(
-            TouristDestination(
-                name = "Pantai Kuta",
-                imageResId = R.drawable.kota1,
-                rating = 4,
-                price = "200.000",
-                isFav = false
-            ),
-            TouristDestination(
-                name = "Ubud Monkey Forest",
-                imageResId = R.drawable.kota1,
-                rating = 5,
-                price = "150.000",
-                isFav = true
-            ),
-            TouristDestination(
-                name = "Pantai Kuta",
-                imageResId = R.drawable.kota1,
-                rating = 4,
-                price = "200.000",
-                isFav = false // Atur status favorit awal
-            )
-        )
-    }
 
-    val updateFavoriteStatus: (Int) -> Unit = { index ->
-        touristDestinations[index].isFav = !touristDestinations[index].isFav
-    }
     XploreInTheme {
         // Content
         Column(
@@ -169,17 +146,20 @@ import kotlinx.coroutines.tasks.await
 
             // Spacer untuk jarak antara Card dan LazyVerticalGrid
             Spacer(modifier = Modifier.height(16.dp))
-
+        Log.d("wisata list", wisataList.toString() + " " + wisataList.size)
             // LazyVerticalGrid dengan item-item TouristDestinationCard
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(5.dp)
             ) {
-                items(touristDestinations.size) { index ->
+                items(wisataList.size) { index ->
+                    val wisata = wisataList[index]
+                    Log.d("wisata list", wisata.name)
                     TouristDestinationCard(
-                        touristDestination = touristDestinations[index],
-                        isFavorite = touristDestinations[index].isFav,
-                        onFavClick = { updateFavoriteStatus(index) }, // Callback untuk memperbarui status favorit
+                        touristDestination = wisata,
+                        isFavorite = wisata.isFav,
+                        onFavClick = {},
+//                        onFavClick = { updateFavoriteStatus(index) }, // Callback untuk memperbarui status favorit
                         onClick = { /*TODO*/
                                   navController.navigate("detail_wisata")},
 
@@ -189,3 +169,5 @@ import kotlinx.coroutines.tasks.await
         }
     }
 }
+
+

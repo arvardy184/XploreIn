@@ -105,9 +105,9 @@ fun PartnerScreen(navController: NavController) {
 
                 ) { page ->
                 when (page) {
-                    0 -> RequestPage()
-                    1 -> AddPage()
-                    2 -> FriendPage()
+                    0 -> RequestPage(navController = navController)
+                    1 -> AddPage(navController = navController)
+                    2 -> FriendPage(navController = navController)
                 }
             }
         }
@@ -115,7 +115,7 @@ fun PartnerScreen(navController: NavController) {
 }
 
 @Composable
-fun RequestPage() {
+fun RequestPage(navController: NavController) {
     Column( modifier = Modifier.padding(20.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
@@ -139,7 +139,7 @@ fun RequestPage() {
 }
 
 @Composable
-fun AddPage() {
+fun AddPage(navController: NavController) {
     Column( modifier = Modifier.padding(20.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
@@ -161,7 +161,7 @@ fun AddPage() {
 }
 
 @Composable
-fun FriendPage() {
+fun FriendPage(navController: NavController) {
     Column( modifier = Modifier.padding(20.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
@@ -173,7 +173,7 @@ fun FriendPage() {
                     nama = "Arvan Ardana",
                     daerah = "Malang",
                     umur = 19,
-                    onClickTerima = { /*TODO*/ }) {
+                    onClickTerima = { navController.navigate("partner_detail") }) {
 
                 }
                 Spacer(modifier = Modifier.height(16.dp))

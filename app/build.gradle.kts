@@ -55,12 +55,12 @@ android {
 dependencies {
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.1")
     implementation("io.coil-kt:coil-compose:2.2.2")
-    implementation("com.google.dagger:hilt-android:2.44")
+    implementation("com.google.dagger:hilt-android:2.49")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.google.firebase:firebase-firestore:24.10.3")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.wear.compose:compose-material:1.3.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
 
     val lifecycle_version = "2.7.0"
     val arch_version = "2.2.0"
@@ -90,6 +90,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.activity:activity-compose:1.7.0")
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")

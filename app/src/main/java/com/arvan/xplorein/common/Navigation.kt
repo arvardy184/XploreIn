@@ -19,6 +19,7 @@ import com.arvan.xplorein.ui.presentation.wisata.WisataScreen
 import com.arvan.xplorein.ui.presentation.booking.BookingScreen
 import com.arvan.xplorein.ui.presentation.home.HomeScreen
 import com.arvan.xplorein.ui.presentation.onboarding.OnboardingScreen
+import com.arvan.xplorein.ui.presentation.partner.DetailPartnerScreen
 import com.arvan.xplorein.ui.presentation.partner.PartnerScreen
 import com.arvan.xplorein.ui.presentation.payment.DetailBookingCard
 import com.arvan.xplorein.ui.presentation.payment.PaymentSuccessScreen
@@ -132,6 +133,11 @@ fun AppNavigation(navController: NavHostController,
         composable("partner"){
             isBottomBar.value = false
             PartnerScreen(navController = navController)
+        }
+
+        composable("partner_detail"){
+            isBottomBar.value = false
+            DetailPartnerScreen(navController = navController)
         }
 
     }

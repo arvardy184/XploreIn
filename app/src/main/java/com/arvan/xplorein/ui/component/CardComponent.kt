@@ -57,6 +57,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arvan.xplorein.R
+import com.arvan.xplorein.data.Model.WisataModel
 import com.arvan.xplorein.ui.theme.green
 import com.arvan.xplorein.ui.theme.grey
 import com.arvan.xplorein.ui.theme.orange
@@ -217,7 +218,7 @@ data class Notification(
 
 @Composable
 fun TouristDestinationCard(
-    touristDestination: TouristDestination,
+    touristDestination: WisataModel,
     modifier: Modifier = Modifier.fillMaxWidth(),
     isFavorite: Boolean,
     onFavClick: () -> Unit,
@@ -240,7 +241,7 @@ fun TouristDestinationCard(
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
                     alignment = Alignment.Center,
-                    painter = painterResource(id = touristDestination.imageResId),
+                    painter = painterResource(id = R.drawable.kota1),
                     contentDescription = touristDestination.name
                 )
 
