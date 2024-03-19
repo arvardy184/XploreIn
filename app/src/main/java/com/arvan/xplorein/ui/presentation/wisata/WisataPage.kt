@@ -1,5 +1,6 @@
 package com.arvan.xplorein.ui.presentation.wisata
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -24,7 +25,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -59,6 +62,7 @@ import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.arvan.xplorein.common.ViewState
 
 @Composable
  fun WisataScreen(
@@ -68,10 +72,12 @@ import androidx.compose.runtime.setValue
     viewModel: WisataViewModel = hiltViewModel()
 ) {
 
-    val wisataList = remember { viewModel.wisataList.collectAsState().value }
-    val viewState = remember {viewModel.viewState}
+       val viewState by remember {viewModel.viewState}.collectAsState(initial = ViewState.Loading)
+
+    val wisataList by remember { viewModel.wisataList}.collectAsState(initial = emptyList())
     LaunchedEffect(Unit) {
-        viewModel.getWisataByCity(cityId)
+
+        viewModel.getWisataByCity(cityId) // Trigger data fetch
     }
 
 
@@ -146,26 +152,47 @@ import androidx.compose.runtime.setValue
 
             // Spacer untuk jarak antara Card dan LazyVerticalGrid
             Spacer(modifier = Modifier.height(16.dp))
-        Log.d("wisata list", wisataList.toString() + " " + wisataList.size)
-            // LazyVerticalGrid dengan item-item TouristDestinationCard
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(5.dp)
-            ) {
-                items(wisataList.size) { index ->
-                    val wisata = wisataList[index]
-                    Log.d("wisata list", wisata.name)
-                    TouristDestinationCard(
-                        touristDestination = wisata,
-                        isFavorite = wisata.isFav,
-                        onFavClick = {},
-//                        onFavClick = { updateFavoriteStatus(index) }, // Callback untuk memperbarui status favorit
-                        onClick = { /*TODO*/
-                                  navController.navigate("detail_wisata")},
+        Log.d("wisata list", wisataList.toString() + " " + wisataList.size + " " + viewState)
 
+            // LazyVerticalGrid dengan item-item TouristDestinationCard
+            when (viewState) {
+                ViewState.Success -> {
+                    if (wisataList.isEmpty()) {
+                        // Temporary loading indicator (optional)
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                    } else {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            contentPadding = PaddingValues(5.dp)
+                        ) {
+                            items(wisataList.size) { index ->
+                                val wisata = wisataList[index]
+                                TouristDestinationCard(
+                                    touristDestination = wisata,
+                                    isFavorite = wisata.isFav,
+                                    onFavClick = {},
+                                    onClick = { navController.navigate("detail_wisata") },
+                                )
+                            }
+                        }
+                    }
+                }
+                ViewState.Loading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                }
+                ViewState.Error -> {
+                    Text(
+                        text = "Terjadi kesalahan saat memuat data",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.error
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(onClick = { viewModel.getWisataByCity(cityId) }) {
+                        Text("Coba Lagi")
+                    }
                 }
             }
+
         }
     }
 }

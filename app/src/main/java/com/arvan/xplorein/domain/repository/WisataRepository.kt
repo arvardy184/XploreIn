@@ -37,7 +37,7 @@ class WisataRepository @Inject constructor(){
                     )
                 )
             }
-            Log.d("WisataRepository", "Wisata data retrieved successfully: $destinations")
+            Log.d("WisataRepository", "Wisata data retrieved successfully gays: $destinations")
             destinations
         } catch (e: Exception) {
             Log.e("WisataRepository", "Error getting wisata data", e)
