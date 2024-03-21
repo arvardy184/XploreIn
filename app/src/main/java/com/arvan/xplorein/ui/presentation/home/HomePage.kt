@@ -221,9 +221,5 @@ navController.navigate("tour_guide")
     }
 
 
-data class KotaModel(
-    val id: String,
-    val name: String,
 
-)
 

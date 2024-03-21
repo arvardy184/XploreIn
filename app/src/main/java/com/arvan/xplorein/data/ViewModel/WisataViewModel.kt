@@ -49,6 +49,14 @@ class WisataViewModel @Inject constructor(
     private val _paymentMethod = MutableStateFlow("")
     val paymentMethod: StateFlow<String> = _paymentMethod.asStateFlow()
 
+    private val _bookingList = MutableStateFlow<List<BookingModel>?>(null)
+    val bookingList = _bookingList.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage = _errorMessage.asStateFlow()
 
     fun getWisataByCity(cityId: String) {
         viewModelScope.launch {
@@ -80,6 +88,22 @@ class WisataViewModel @Inject constructor(
             }
         }
     }
+
+
+    fun getAllBookings() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val result = bookingRepository.getAllBookings()
+            if (result.isSuccess) {
+                _bookingList.value = result.getOrNull()
+                Log.d("BookingViewModel", "Booking data retrieved successfully: ${_bookingList.value}")
+            } else {
+                _errorMessage.value = result.exceptionOrNull()?.message
+            }
+            _isLoading.value = false
+        }
+    }
+
 
     fun updateBookingDate(date:String){
         _bookingDate.value = date

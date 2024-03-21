@@ -1,5 +1,6 @@
 package com.arvan.xplorein.ui.presentation.booking
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,8 +17,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -27,6 +30,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,8 +43,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.arvan.xplorein.common.BottomNavBar
+import com.arvan.xplorein.data.ViewModel.WisataViewModel
 import com.arvan.xplorein.ui.component.ElevatedCardExample
 import com.arvan.xplorein.ui.theme.booking
 import com.arvan.xplorein.ui.theme.green
@@ -46,7 +55,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun BookingScreen(navController: NavController) {
+fun BookingScreen(navController: NavController, viewModel: WisataViewModel = hiltViewModel()) {
+
     Scaffold(topBar = {
         TopAppBar(
             title = {
@@ -129,11 +139,45 @@ fun GuidesPage() {
 }
 
 @Composable
-fun PlacesPage() {
+fun PlacesPage(viewModel: WisataViewModel = hiltViewModel()) {
+    LaunchedEffect(Unit) {
+        viewModel.getAllBookings()
+    }
+    val bookingList by remember { viewModel.bookingList}.collectAsState(initial = emptyList())
+    val isLoading by remember { viewModel.isLoading}.collectAsState(initial = false)
+    val errorMessage by remember { viewModel.errorMessage}.collectAsState(initial = null)
+
     Column( modifier = Modifier.padding(20.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
         ) {
-      ElevatedCardExample(date = "17 September 2024", price = "Rp. 28.590", onSeeDetailsClick = {})
+      if (errorMessage != null) {
+            // Show error message
+            Text(
+                text = errorMessage ?: "",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(16.dp)
+            )
+        } else {
+            Log.d("BookingPage", "bookingList: $bookingList")
+
+            LazyColumn (modifier = Modifier){
+//                bookingList?.let {
+//                    items(it.size ?: 4) { bookingItem ->
+//
+//                        // Render each booking item
+//                        ElevatedCardExample(
+//                            date = bookingList!![bookingItem].bookingDate ?: "24 Maret 2024",
+//                            price = bookingList!![bookingItem].wisata.price ?: "Rp. 28.590",
+//                            onSeeDetailsClick = {}
+//                        )
+//                    }
+//                }
+                items(10){
+                    ElevatedCardExample(date = "17 September 2024", price = "Rp. 28.590", onSeeDetailsClick = {})
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
+        }
     }
 }

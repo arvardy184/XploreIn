@@ -155,6 +155,7 @@ fun ElevatedCardExample( date: String,
 
         }
     }
+    Spacer(modifier = Modifier.height(10.dp))
 }
 
 @Composable
@@ -245,7 +246,6 @@ fun TouristDestinationCard(
                     contentDescription = touristDestination.name
                 )
 
-             
                 IconButton(
                     onClick = onFavClick,
                     modifier = Modifier
@@ -716,7 +716,9 @@ fun PermintaanPertemananCard(
                 } else if(typePartner == 3){
                     Button(
                         contentPadding = PaddingValues(vertical = 5.dp, horizontal = 1.dp),
-                        modifier = Modifier.width(80.dp).height(30.dp),
+                        modifier = Modifier
+                            .width(80.dp)
+                            .height(30.dp),
                         onClick = { onClickTerima() },
                         colors = ButtonDefaults.buttonColors(containerColor = orange)
                     ) {

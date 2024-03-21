@@ -41,8 +41,9 @@ fun SignInContent(navController: NavController, googleAuthUiClient: GoogleAuthUi
             lifecycleScope.launch {
                 val signInIntentSender = googleAuthUiClient.signIn()
                 launcher.launch(IntentSenderRequest.Builder(signInIntentSender ?: return@launch).build())
+                navController.navigate("home")
             }
-            navController.navigate("home")
+
               },
         onSignUpClick = {
             navController.navigate("sign_up")
