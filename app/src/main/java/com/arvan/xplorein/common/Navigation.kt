@@ -71,9 +71,7 @@ fun AppNavigation(navController: NavHostController,
 
         composable("sign_up") {
             SignUpScreen(
-                onSignInClick = {
-                    navController.navigate("sign_in")
-                },
+
                 onClick = {
                     navController.navigate("sign_in")
                 }

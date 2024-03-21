@@ -46,7 +46,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun SignUpScreen(
-    onSignInClick: () -> Unit,
     onClick: () -> Unit
 ) {
     val email = remember { mutableStateOf("") }
@@ -119,13 +118,11 @@ fun SignUpScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             ClickableAuthTextComponent(
-                onLoginSelected = {
-                    // Null or navigate to the login screen
-                               onSignInClick()
-                },
-                onSignUpSelected = {
+
+                onClickSelected = {
                     onClick()
-                }
+                },
+                teks = "Sign In"
             )
         }
     }

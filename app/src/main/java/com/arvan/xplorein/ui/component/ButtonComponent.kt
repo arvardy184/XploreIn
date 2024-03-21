@@ -98,34 +98,25 @@ fun AuthButtonComponent(value:String,onClickAuth: () -> Unit) {
 
 @Composable
 fun ClickableAuthTextComponent(
-    onLoginSelected: () -> Unit,
-    onSignUpSelected: () -> Unit
-
+    onClickSelected: () -> Unit,
+    teks: String
 ) {
     val initText = "Already have an account? "
-    val loginText = "Login"
-    val signupText = "Sign Up"
 
     val annotatedString = buildAnnotatedString {
         append(initText)
-        withStyle(style = SpanStyle(color = Color.Black)) {
-            pushStringAnnotation(tag = loginText, annotation = loginText)
-            append(loginText)
+        withStyle(style = SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold )) {
+            pushStringAnnotation(tag = teks, annotation = teks)
+            append(teks)
             pop()
         }
-        append(" or ")
-        withStyle(style = SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold)) {
-            pushStringAnnotation(tag = signupText, annotation = signupText)
-            append(signupText)
-            pop()
-        }
+
     }
 
     ClickableText(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 40.dp),
-
         style = TextStyle(
             fontFamily = InterFontFamily,
             fontSize = MaterialTheme.typography.bodyLarge.fontSize,
@@ -137,8 +128,7 @@ fun ClickableAuthTextComponent(
             annotatedString.getStringAnnotations(offset, offset)
                 .firstOrNull()?.also { span ->
                     when (span.item) {
-                        loginText -> onLoginSelected()
-                        signupText -> onSignUpSelected()
+                       teks -> onClickSelected()
                     }
                 }
         }

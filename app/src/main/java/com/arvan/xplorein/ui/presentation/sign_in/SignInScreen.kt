@@ -131,14 +131,12 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             ClickableAuthTextComponent(
-                onLoginSelected = {
-                    // Handle login click
-                    onSignInClick()
-                },
-                onSignUpSelected = {
+
+                onClickSelected = {
                     // Handle sign up click
                     onSignUpClick()
-                }
+                },
+                teks = "Sign Up"
             )
             Spacer(modifier = Modifier.height(16.dp))
             DividerTextCompoent()
