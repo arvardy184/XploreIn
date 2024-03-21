@@ -20,13 +20,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun SignInContent(navController: NavController, googleAuthUiClient: GoogleAuthUiClient, lifecycleScope: LifecycleCoroutineScope, applicationContext: Context) {
     val viewModel = viewModel<SignInViewModel>()
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-//                            LaunchedEffect(key1 = Unit) {
-//                                if(googleAuthUiClient.getSignedInUser() != null) {
-//                                    navController.navigate("profile")
-//                                }
-//                            }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult(),
@@ -42,36 +35,34 @@ fun SignInContent(navController: NavController, googleAuthUiClient: GoogleAuthUi
         }
     )
 
-    LaunchedEffect(key1 = state.isSignInSuccessful) {
-        if(state.isSignInSuccessful) {
-            Toast.makeText(
-                applicationContext,
-                "Sign in successful",
-                Toast.LENGTH_LONG
-            ).show()
-
-            navController.navigate("profile")
-            viewModel.resetState()
-        }
-    }
 
     SignInScreen(
-        state = state,
         onSignInClick = {
             lifecycleScope.launch {
                 val signInIntentSender = googleAuthUiClient.signIn()
-                launcher.launch(
-                    IntentSenderRequest.Builder(
-                        signInIntentSender ?: return@launch
-                    ).build()
-                )
+                launcher.launch(IntentSenderRequest.Builder(signInIntentSender ?: return@launch).build())
             }
             navController.navigate("home")
               },
         onSignUpClick = {
             navController.navigate("sign_up")
-
         },
+        handleSignIn = {
+                    Toast.makeText(
+                        applicationContext,
+                        "Sign in successful",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    navController.navigate("home")
+                    viewModel.resetState()
+
+
+
+        }
+
+
+
+
 
 
     )

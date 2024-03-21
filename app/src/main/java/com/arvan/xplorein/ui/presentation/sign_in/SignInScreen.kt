@@ -1,5 +1,6 @@
 package com.arvan.xplorein.ui.presentation.sign_in
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -14,8 +15,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -23,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
 import com.arvan.xplorein.ui.component.AuthButtonComponent
@@ -34,18 +39,44 @@ import com.arvan.xplorein.ui.component.TitleTextComponent
 import com.arvan.xplorein.ui.theme.yellow
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun SignInScreen(
-    state: SignInState,
-
     onSignInClick: () -> Unit,
-    onSignUpClick: () -> Unit // Add a callback for sign up click
+    onSignUpClick: () -> Unit,
+    handleSignIn: () -> Unit,
+    viewModel: SignInViewModel = SignInViewModel()// Add a callback for sign up click
 ) {
-
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    if (state.isLoading) {
+        Toast.makeText(context, "Loading...", Toast.LENGTH_LONG).show()
+    }
+
+
+
+    LaunchedEffect(key1 = state.isSignInSuccessful) {
+        if (state.isSignInSuccessful) {
+            val isUserExist = checkuserExist(email.value)
+                if (isUserExist) {
+                    onSignInClick()
+                }
+         else{
+                Toast.makeText(context, "User doesn't exist", Toast.LENGTH_LONG).show()
+                }
+            viewModel.resetState()
+
+        }
+    }
+
+
 
     LaunchedEffect(key1 = state.signInError) {
         state.signInError?.let { error ->
@@ -93,23 +124,9 @@ fun SignInScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
             AuthButtonComponent(value = "Sign In") {
-                signInWithEmailAndPassword(
-                    email = email.value,
-                    password = password.value,
-                    onSuccess = {
-                        // Handle sign-in success (if needed)
-                        Log.d("SignInScreen", "Sign In successful!")
-
-                    },
-                    onError = { errorMessage ->
-                        // Handle sign-in error (show error message to the user, log, etc.)
-                        // For example, you can update a state variable to display the error
-                        // myErrorMessage = errorMessage
-
-                        // Log the error message
-                        Log.e("SignInScreen", errorMessage)
-                    }
-                )
+//                viewModel.updateState(isLoading = true) // Update loading state
+                viewModel.signInWithEmailAndPassword(email.value, password.value)
+                handleSignIn()
             }
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -131,30 +148,5 @@ fun SignInScreen(
                 }
             )
         }
-    }
-}
-
-private fun signInWithEmailAndPassword(
-    email: String,
-    password: String,
-    onSuccess: () -> Unit,
-    onError: (String) -> Unit,
-
-) {
-    val auth = Firebase.auth
-    if (email.isNotEmpty() && password.isNotEmpty()) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Handle sign-in success
-                    Log.d("SignInScreen", "Sign In successful!")
-
-                } else {
-                    // Handle sign-in failure
-                    onError("Failed to sign in: ${task.exception?.message}")
-                }
-            }
-    } else {
-        onError("Please fill in all fields")
     }
 }

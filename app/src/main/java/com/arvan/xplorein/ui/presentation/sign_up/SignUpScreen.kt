@@ -131,11 +131,6 @@ fun SignUpScreen(
     }
 }
 
-//private fun showToast(message: String) {
-//    val context = LocalContext.current
-//    val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
-//    toast.show()
-//}
 
 private fun signUpWithEmailPassword(
     email: String,
@@ -171,8 +166,6 @@ private fun signUpWithEmailPassword(
                         .addOnSuccessListener {
                             // Handle sign-up success
                             Log.d("SignUpScreen", "User profile created successfully")
-
-
                             // Additional log to check if the data is stored in Firestore
                             Log.d("SignUpScreen", "Data stored in Firestore: $userProfile")
 

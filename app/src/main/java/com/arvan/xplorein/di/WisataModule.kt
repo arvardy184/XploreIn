@@ -1,6 +1,7 @@
 package com.arvan.xplorein.di
 
 import com.arvan.xplorein.data.ViewModel.WisataViewModel
+import com.arvan.xplorein.domain.repository.BookingRepository
 import com.arvan.xplorein.domain.repository.WisataRepository
 import dagger.Module
 import dagger.Provides
@@ -15,5 +16,5 @@ import dagger.hilt.components.SingletonComponent
 object WisataModule {
     @Provides
     @ViewModelScoped
-    fun provideWisataViewModel(wisataRepository: WisataRepository): WisataViewModel = WisataViewModel(wisataRepository)
+    fun provideWisataViewModel(wisataRepository: WisataRepository, bookingRepository: BookingRepository): WisataViewModel = WisataViewModel(wisataRepository, bookingRepository)
 }

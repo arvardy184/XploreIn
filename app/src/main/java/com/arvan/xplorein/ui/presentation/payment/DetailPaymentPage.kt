@@ -1,5 +1,7 @@
 package com.arvan.xplorein.ui.presentation.payment
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,20 +39,23 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.arvan.xplorein.common.DetailPayment
+import com.arvan.xplorein.data.Model.BookingModel
+import com.arvan.xplorein.data.ViewModel.WisataViewModel
 import com.arvan.xplorein.ui.component.SubmitButton
 import com.arvan.xplorein.ui.theme.orange
 import com.arvan.xplorein.ui.theme.yellow
 import kotlinx.coroutines.delay
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailBookingCard(navController: NavController) {
+fun DetailBookingCard(navController: NavController,viewModel: WisataViewModel = hiltViewModel()) {
     val isCopied = remember { mutableStateOf(false) }
 
     val clipboardManager = LocalClipboardManager.current
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -186,7 +191,8 @@ fun DetailBookingCard(navController: NavController) {
 
 
                             Spacer(modifier = Modifier.height(8.dp))
-                            SubmitButton(isEnabled = true, onClick = {  navController.navigate("payment_success")}, text = "I Already Paid")
+                            SubmitButton(isEnabled = true, onClick = {
+                                navController.navigate("payment_success")}, text = "I Already Paid")
 
 
                         }
@@ -198,7 +204,11 @@ fun DetailBookingCard(navController: NavController) {
 
          DetailPayment()
             Spacer(modifier = Modifier.height(8.dp))
-            SubmitButton(isEnabled = true, onClick = {  navController.navigate("payment_success")}, text = "I Already Paid")
+            SubmitButton(isEnabled = true, onClick = {
+                viewModel.book()
+                Log.d("Cek booking", viewModel.book().toString())
+
+                navController.navigate("payment_success")}, text = "I Already Paid")
         }
         if (isCopied.value) {
             Text(

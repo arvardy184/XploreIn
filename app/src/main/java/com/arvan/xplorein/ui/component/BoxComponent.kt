@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.arvan.xplorein.data.Model.Bank
 import com.arvan.xplorein.ui.theme.gray
 import com.arvan.xplorein.ui.theme.green
 
@@ -75,7 +76,3 @@ fun PaymentOption(
 }
 
 
-data class Bank(
-    val name: String,
-    val imageResId: Int
-)

@@ -57,19 +57,24 @@ import com.arvan.xplorein.common.CheckboxStatus
 import com.arvan.xplorein.common.ViewState
 import com.arvan.xplorein.data.Model.DetailWisataModel
 import com.arvan.xplorein.data.ViewModel.WisataViewModel
+import com.arvan.xplorein.ui.component.PartnerSelection
 import com.arvan.xplorein.ui.component.SubmitButton
 import com.arvan.xplorein.ui.theme.XploreInTheme
 import com.arvan.xplorein.ui.theme.orange
+import java.time.LocalDate
 
 @Composable
 fun DetailWisataScreen(navController: NavController,cityId: String, wisataId: String,viewModel: WisataViewModel = hiltViewModel()) {
+    val destination by remember {viewModel.detailWisata}.collectAsState(initial = DetailWisataModel())
+    val partnerNeeded by remember  {viewModel.partnerNeeded}.collectAsState(initial = false)
     var date = remember { mutableStateOf("") }
     val month = remember { mutableStateOf("") }
     val year = remember { mutableStateOf("") }
-    val checkboxStatus = remember { mutableStateOf(CheckboxStatus.NO) }
+    val checkboxStatus = remember { mutableStateOf(CheckboxStatus.NO)}
     val isChecked2 = remember { mutableStateOf(false) }
     val viewState by remember {viewModel.viewStateDetail}.collectAsState(initial = ViewState.Loading)
     val detailWisata by remember {viewModel.detailWisata}.collectAsState(initial = DetailWisataModel())
+
 
 
     LaunchedEffect(Unit) {
@@ -77,8 +82,9 @@ fun DetailWisataScreen(navController: NavController,cityId: String, wisataId: St
     }
 
     LaunchedEffect(detailWisata) {
-        Log.d("detail wisata", detailWisata.toString() + " "  + " " + viewState)
+        Log.d("detail wisata di launched effect", detailWisata.toString() + " "  + " " + viewState)
     }
+
 
 
 
@@ -86,11 +92,11 @@ fun DetailWisataScreen(navController: NavController,cityId: String, wisataId: St
         Column(
             modifier = Modifier
         ) {
-            Log.d("detail wisata", detailWisata.toString() + " "  + " " + viewState)
+            Log.d("detail wisata tes view", detailWisata.toString() + " "  + " " + viewState + " ")
             when (viewState) {
-
                 ViewState.Success -> {
                     Log.d("state apaa ", detailWisata.toString())
+                    val wisataa = detailWisata ?: return@Column
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -141,13 +147,8 @@ fun DetailWisataScreen(navController: NavController,cityId: String, wisataId: St
                                     }
 
                                 }
-
-
                                 Spacer(modifier = Modifier.height(200.dp))
-
-
                             }
-
                         }
                     }
                     Column(
@@ -212,6 +213,7 @@ fun DetailWisataScreen(navController: NavController,cityId: String, wisataId: St
                             fontWeight = FontWeight.Normal
                         )
 
+
                         Text(
                             text = "Date",
                             fontWeight = FontWeight.SemiBold,
@@ -229,7 +231,8 @@ fun DetailWisataScreen(navController: NavController,cityId: String, wisataId: St
                             OutlinedTextField(
                                 label = { Text("dd") },
                                 value = date.value,
-                                onValueChange = { newDate -> date.value = newDate },
+                                onValueChange = { newDate -> date.value = newDate
+                                                viewModel.updateBookingDate(newDate) },
                                 singleLine = true,
                                 modifier = Modifier
                                     .weight(0.3f)
@@ -284,31 +287,28 @@ fun DetailWisataScreen(navController: NavController,cityId: String, wisataId: St
                             modifier = Modifier.padding(horizontal = 16.dp)
                         )
 
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Checkbox(
-                                checked = checkboxStatus.value == CheckboxStatus.YES,
-                                onCheckedChange = {
-                                    if (it) checkboxStatus.value = CheckboxStatus.YES
-                                },
-                                modifier = Modifier.padding(end = 8.dp)
-                            )
-                            Text(text = "Yes")
-
-                            Checkbox(
-                                checked = checkboxStatus.value == CheckboxStatus.NO,
-                                onCheckedChange = {
-                                    if (it) checkboxStatus.value = CheckboxStatus.NO
-                                },
-                                modifier = Modifier.padding(end = 8.dp)
-                            )
-                            Text(text = "No")
-                        }
+                        PartnerSelection(
+                            selected = partnerNeeded,
+                            onSelectPartner = { changeVal ->
+                                viewModel.updatePartnerNeeded(changeVal)
+                            Log.d("Check Partner", "${viewModel.partnerNeeded}")// Call viewModel function
+                            }
+                        )
 
                         SubmitButton(
                             isEnabled = date.value.isNotEmpty() && month.value.isNotEmpty() && year.value.isNotEmpty(),
-                            onClick = { navController.navigate("payment") },
+                            onClick = {
+                                viewModel.book()
+
+                                viewModel.updateBookingDate(date.value)
+
+                                Log.d("Check Date", "${viewModel.bookingDate.value} ${viewModel.partnerNeeded.value} ${viewModel.paymentMethod.value} ${viewModel.detailWisata.value}")
+
+                                navController.navigate("payment")
+
+
+                                 },
+
                             text = "Book"
                         )
 
@@ -338,3 +338,9 @@ fun DetailWisataScreen(navController: NavController,cityId: String, wisataId: St
         }
 }}
 
+
+data class PaymentArgs(
+    val wisataId: String,
+    val partnerNeeded: Boolean,
+    val bookingDate: String
+)

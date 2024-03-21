@@ -1,5 +1,6 @@
 package com.arvan.xplorein.ui.presentation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,14 +21,20 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.arvan.xplorein.R
-import com.arvan.xplorein.ui.component.Bank
+import com.arvan.xplorein.data.Model.Bank
+import com.arvan.xplorein.data.Model.DetailWisataModel
+import com.arvan.xplorein.data.ViewModel.WisataViewModel
 import com.arvan.xplorein.ui.component.PaymentOption
 import com.arvan.xplorein.ui.component.SubmitButton
 import com.arvan.xplorein.ui.theme.XploreInTheme
@@ -35,9 +42,20 @@ import com.arvan.xplorein.ui.theme.green
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaymentScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: WisataViewModel = hiltViewModel()
 ) {
     val selectedBankIndex = remember { mutableStateOf(-1) } // Menggunakan state untuk mengelola bank yang dipilih
+    val paymentMethod by remember {viewModel.paymentMethod}.collectAsState(initial = "")
+    val wisataId = navController.currentBackStackEntry?.arguments?.getString("wisataId") ?: ""
+    val bookingDate = navController.currentBackStackEntry?.arguments?.getString("bookingDate") ?: ""
+    val partnerNeeded = navController.currentBackStackEntry?.arguments?.getBoolean("partnerNeeded") ?: false
+    val detailWisata by remember {viewModel.detailWisata}.collectAsState(initial = DetailWisataModel())
+
+
+    LaunchedEffect(detailWisata){
+        Log.d("Cek data di payment","${detailWisata} ${wisataId} ${bookingDate} ${partnerNeeded} ${paymentMethod}")
+    }
 
     Scaffold(
         topBar = {
@@ -83,10 +101,12 @@ fun PaymentScreen(
         }
 //        Spacer(modifier = Modifier.fillMaxSize())
 
-                SubmitButton(isEnabled = selectedBankIndex.value != -1, onClick = { /*TODO*/
+                SubmitButton(isEnabled = selectedBankIndex.value != -1, onClick = {
+                viewModel.updatePaymentMethod(banks[selectedBankIndex.value].name)
+                    Log.d("Cek data", "$wisataId ${bookingDate} ${partnerNeeded}")
+                    Log.d("Payment Now", banks[selectedBankIndex.value].name)
+                    viewModel.book()
                                                                                   navController.navigate("detail_booking")}, text = "Submit")
-
-
         }
 
 

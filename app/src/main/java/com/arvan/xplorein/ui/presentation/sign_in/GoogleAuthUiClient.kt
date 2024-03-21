@@ -3,12 +3,14 @@ package com.arvan.xplorein.ui.presentation.sign_in
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.util.Log
 import com.arvan.xplorein.R
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -34,18 +36,40 @@ class GoogleAuthUiClient(
         val googleIdToken = credential.googleIdToken
         val googleCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
         return try {
-val user = auth.signInWithCredential(googleCredential).await().user
+            val user = auth.signInWithCredential(googleCredential).await().user
             println("user: $user")
-            SignInResult(
-                data = user?.run {   UserData(
-                    userId = uid,
-                    username = displayName,
-                    email = email,
-                    profilePic = photoUrl?.toString()
+            if (user != null){
+                val userProfile = hashMapOf(
+                    "userId" to user.uid,
+                    "username" to user.displayName,
+                    "email" to user.email,
+                    "profilePic" to user.photoUrl?.toString()
                 )
-                },
-                errorMessage = null
-            )
+                FirebaseFirestore.getInstance().collection("users").document(user.uid).set(userProfile)
+                    .addOnCompleteListener {
+                        Log.d("GoogleAuthUiClient", "User profile created successfully")
+                    }
+                    .addOnFailureListener {
+                        Log.e(  "GoogleAuthUiClient", "Failed to create user profile: $it")
+                    }
+               return  SignInResult(
+                    data = user.run {   UserData(
+                        userId = uid,
+                        username = displayName,
+                        email = email,
+                        profilePic = photoUrl?.toString()
+                    )
+
+                    },
+                    errorMessage = null
+                )
+            } else{
+                return SignInResult(
+                    data = null,
+                    errorMessage = "Failed to sign in, User data not found"
+                )
+            }
+
         } catch (e: Exception){
             e.printStackTrace()
             if(e is CancellationException) throw e
@@ -66,6 +90,9 @@ val user = auth.signInWithCredential(googleCredential).await().user
             if(e is CancellationException) throw e
         }
     }
+
+
+
 
     fun getSignedInUser(): UserData? = auth.currentUser?.run {
         UserData(

@@ -39,7 +39,7 @@ fun AppNavigation(navController: NavHostController,
                   applicationContext: Context,
                   isBottomBar: MutableState<Boolean>) {
 
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "onboarding") {
 
         composable("payment_success"){
             isBottomBar.value = false
@@ -51,6 +51,7 @@ fun AppNavigation(navController: NavHostController,
         }
 
         composable("onboarding") {
+            isBottomBar.value = false
             OnboardingScreen(
                 onSignInClick = {
                     navController.navigate("sign_up")
